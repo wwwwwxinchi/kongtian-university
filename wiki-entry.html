@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>条目 · 校园维基百科</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body class="wiki-classic">
+    <a class="skip" href="#main">跳到主要内容</a>
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="brand" href="index.html">
+          <img src="assets/emblem-white.webp?v=2" alt="" width="36" height="36" />
+          <strong>空天大学</strong>
+        </a>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav">
+          菜单
+        </button>
+        <nav class="nav" id="nav" data-nav aria-label="主导航">
+          <a href="index.html">首页</a>
+          <a href="wiki.html" aria-current="page">校园维基百科</a>
+          <a href="orgs.html">校内机构</a>
+          <a href="faculties.html">院系</a>
+          <a href="weekly.html">校园周报</a>
+          <a href="forum.html">论坛</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wiki-classic-main">
+      <div class="wrap wiki-classic-layout">
+        <aside class="wiki-classic-toc panel" data-wiki-toc aria-label="百科导航"></aside>
+
+        <article class="panel wiki-classic-article">
+          <p class="wiki-breadcrumb">
+            <a href="wiki.html">校园维基百科</a>
+            <span>/</span>
+            <span data-wiki-crumb>条目</span>
+          </p>
+          <h1 data-wiki-title>条目</h1>
+          <p class="wiki-classic-summary" data-wiki-summary></p>
+
+          <aside class="wiki-emblem" data-wiki-infobox hidden></aside>
+          <div class="wiki-classic-body" data-wiki-body></div>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-row">
+        <div>社区创作遵循 Attribution-ShareAlike 4.0 International <strong>CC-BY-SA</strong> 许可协议</div>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="js/wiki-data.js"></script>
+    <script src="js/wiki-entry.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

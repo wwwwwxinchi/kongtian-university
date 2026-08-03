@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>校园维基百科 · 空天大学</title>
+    <meta name="description" content="空天大学校园维基百科词云入口" />
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">跳到主要内容</a>
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="brand" href="index.html">
+          <img src="assets/emblem-white.webp?v=2" alt="" width="36" height="36" />
+          <strong>空天大学</strong>
+        </a>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav">
+          菜单
+        </button>
+        <nav class="nav" id="nav" data-nav aria-label="主导航">
+          <a href="index.html">首页</a>
+          <a href="wiki.html" aria-current="page">校园维基百科</a>
+          <a href="orgs.html">校内机构</a>
+          <a href="faculties.html">院系</a>
+          <a href="weekly.html">校园周报</a>
+          <a href="forum.html">论坛</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page-hero wrap wiki-cloud-hero">
+        <p class="script">campus wiki</p>
+        <h1>校园维基百科</h1>
+        <p>点一颗词，打开一条条目。</p>
+      </section>
+
+      <section class="section" style="padding-top: 0">
+        <div class="wrap">
+          <div class="wiki-cloud-stage" aria-label="词云地球">
+            <div class="wiki-cloud-earth" data-wiki-cloud>
+              <svg class="wiki-cloud-globe" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                <circle cx="100" cy="100" r="98" />
+                <!-- 经线 -->
+                <ellipse cx="100" cy="100" rx="24" ry="98" />
+                <ellipse cx="100" cy="100" rx="48" ry="98" />
+                <ellipse cx="100" cy="100" rx="72" ry="98" />
+                <line x1="100" y1="2" x2="100" y2="198" />
+                <!-- 纬线 -->
+                <ellipse cx="100" cy="100" rx="98" ry="24" />
+                <ellipse cx="100" cy="100" rx="98" ry="48" />
+                <ellipse cx="100" cy="100" rx="98" ry="72" />
+                <line x1="2" y1="100" x2="198" y2="100" />
+              </svg>
+            </div>
+            <p class="wiki-cloud-hint">关键词均为横向排布 · 点击进入百科正文</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-row">
+        <div>社区创作遵循 Attribution-ShareAlike 4.0 International <strong>CC-BY-SA</strong> 许可协议</div>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="js/wiki-data.js"></script>
+    <script src="js/wiki-cloud.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
