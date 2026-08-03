@@ -1,76 +1,91 @@
-# 一键部署到 GitHub Pages
-# 用法（需能访问 github.com，通常要开代理）：
+﻿# Deploy website/ to GitHub Pages via SSH (no HTTPS gh login required).
+# Prerequisites:
+#   1) ssh -T git@github.com   works
+#   2) Create an empty public repo named kongtian-university on GitHub
+#      https://github.com/new  (Public, NO README / .gitignore / license)
+# Run:
 #   powershell -ExecutionPolicy Bypass -File .\deploy-github-pages.ps1
 
 $ErrorActionPreference = "Stop"
-$gh = "${env:ProgramFiles}\GitHub CLI\gh.exe"
-$git = "D:\Git\cmd\git.exe"
-if (-not (Test-Path $gh)) { $gh = "gh" }
-if (-not (Test-Path $git)) { $git = "git" }
 
+$gitCandidates = @(
+  "D:\Git\cmd\git.exe",
+  "${env:ProgramFiles}\Git\cmd\git.exe",
+  "git"
+)
+$git = $gitCandidates | Where-Object {
+  $_ -eq "git" -or (Test-Path $_)
+} | Select-Object -First 1
+if (-not $git) { throw "git not found." }
+
+$ssh = "ssh"
 Set-Location -LiteralPath $PSScriptRoot
 
-Write-Host "==> 检查 GitHub 登录..." -ForegroundColor Cyan
-& $gh auth status 2>$null
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "尚未登录。即将打开浏览器登录 GitHub..." -ForegroundColor Yellow
-  & $gh auth login --hostname github.com --git-protocol https --web
-  if ($LASTEXITCODE -ne 0) { throw "GitHub 登录失败，请检查网络/代理后重试。" }
+Write-Host "==> Checking SSH auth to GitHub..." -ForegroundColor Cyan
+$sshOut = ""
+$old = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+$sshOut = (& $ssh -T -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 git@github.com 2>&1 | Out-String)
+$ErrorActionPreference = $old
+
+if ($sshOut -notmatch "successfully authenticated") {
+  Write-Host $sshOut
+  throw "SSH auth failed. Run: ssh -T git@github.com"
 }
 
-$user = (& $gh api user --jq .login).Trim()
+if ($sshOut -match "Hi ([^!]+)!") {
+  $user = $Matches[1].Trim()
+} else {
+  $user = "wwwwwxinchi"
+}
 $repoName = "kongtian-university"
 $full = "$user/$repoName"
-Write-Host "==> 账号: $user  仓库: $full" -ForegroundColor Cyan
+$sshUrl = "git@github.com:$full.git"
+Write-Host "==> Account: $user" -ForegroundColor Cyan
+Write-Host "==> Remote : $sshUrl" -ForegroundColor Cyan
 
-if (-not (Test-Path .git)) {
+if (-not (Test-Path -LiteralPath ".git")) {
   & $git init
   & $git branch -M main
 }
 
-$remote = (& $git remote 2>$null)
-if (-not ($remote -match "origin")) {
-  $exists = $false
-  try {
-    & $gh repo view $full 2>$null | Out-Null
-    if ($LASTEXITCODE -eq 0) { $exists = $true }
-  } catch { $exists = $false }
-
-  if ($exists) {
-    & $git remote add origin "https://github.com/$full.git"
-  } else {
-    Write-Host "==> 创建公开仓库并上传..." -ForegroundColor Cyan
-    & $git add -A
-    & $git -c user.name="$user" -c user.email="$user@users.noreply.github.com" commit -m "Deploy Kongtian University static site" 2>$null
-    & $gh repo create $repoName --public --source=. --remote=origin --push
-    if ($LASTEXITCODE -ne 0) { throw "创建仓库失败" }
-  }
+$remotes = @(& $git remote 2>$null)
+if ($remotes -notcontains "origin") {
+  & $git remote add origin $sshUrl
+} else {
+  & $git remote set-url origin $sshUrl
 }
 
-Write-Host "==> 提交并推送最新文件..." -ForegroundColor Cyan
+Write-Host "==> Commit latest files..." -ForegroundColor Cyan
 & $git add -A
-$status = & $git status --porcelain
-if ($status) {
+$pending = & $git status --porcelain
+if ($pending) {
   & $git -c user.name="$user" -c user.email="$user@users.noreply.github.com" commit -m "Update site for GitHub Pages"
 }
-& $git push -u origin main
-if ($LASTEXITCODE -ne 0) {
-  # 若远端已有内容，尝试拉取后推送
-  & $git pull origin main --rebase
-  & $git push -u origin main
+
+Write-Host "==> Push to GitHub via SSH..." -ForegroundColor Cyan
+$ErrorActionPreference = "Continue"
+& $git push -u origin main 2>&1 | ForEach-Object { Write-Host $_ }
+$pushCode = $LASTEXITCODE
+$ErrorActionPreference = "Stop"
+
+if ($pushCode -ne 0) {
+  Write-Host ""
+  Write-Host "Push failed. Most likely the repo does not exist yet." -ForegroundColor Yellow
+  Write-Host "Do this once in browser (VPN if needed):" -ForegroundColor Yellow
+  Write-Host "  1) Open https://github.com/new" -ForegroundColor Yellow
+  Write-Host "  2) Repository name: kongtian-university" -ForegroundColor Yellow
+  Write-Host "  3) Public, create WITHOUT README/gitignore/license" -ForegroundColor Yellow
+  Write-Host "  4) Re-run this script" -ForegroundColor Yellow
+  throw "git push failed (exit $pushCode)."
 }
 
-Write-Host "==> 开启 GitHub Pages (main / root)..." -ForegroundColor Cyan
-& $gh api -X POST "repos/$full/pages" -f build_type=legacy -f source='{"branch":"main","path":"/"}' 2>$null
-# 若已存在则改为更新
-& $gh api -X PUT "repos/$full/pages" -f build_type=legacy -f source='{"branch":"main","path":"/"}' 2>$null
-
-Start-Sleep -Seconds 3
-$page = & $gh api "repos/$full/pages" | ConvertFrom-Json
-$url = $page.html_url
-if (-not $url) { $url = "https://$user.github.io/$repoName/" }
-
 Write-Host ""
-Write-Host "部署完成（首次可能要等 1～2 分钟生效）" -ForegroundColor Green
-Write-Host "访问地址: $url" -ForegroundColor Green
-Write-Host "仓库地址: https://github.com/$full" -ForegroundColor Green
+Write-Host "Code uploaded." -ForegroundColor Green
+Write-Host "Enable Pages (one-time, in browser):" -ForegroundColor Cyan
+Write-Host "  1) Open https://github.com/$full/settings/pages"
+Write-Host "  2) Source: Deploy from a branch"
+Write-Host "  3) Branch: main , folder: / (root) , Save"
+Write-Host ""
+Write-Host "Site URL (after 1-2 min): https://$user.github.io/$repoName/" -ForegroundColor Green
+Write-Host "Repo URL: https://github.com/$full" -ForegroundColor Green
