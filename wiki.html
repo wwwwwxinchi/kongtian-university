@@ -7,6 +7,7 @@
     <meta name="description" content="空天大学校园维基百科词云入口" />
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/orbital.css?v=20260809a" />
   </head>
   <body>
     <a class="skip" href="#main">跳到主要内容</a>
@@ -32,16 +33,17 @@
 
     <main id="main">
       <section class="page-hero wrap wiki-cloud-hero">
-        <p class="script">campus wiki</p>
+        <p class="archive-label">KONGTIAN LIVING ARCHIVE · EST. 1926</p>
+        <p class="script">campus knowledge field</p>
         <h1>校园维基百科</h1>
-        <p>点一颗词，打开一条条目。</p>
+        <p>每个词都是一处能场坐标。靠近它，查看与校园世界相连的知识路径。</p>
       </section>
 
-      <section class="section" style="padding-top: 0">
-        <div class="wrap">
-          <div class="wiki-cloud-stage" aria-label="词云地球">
-            <div class="wiki-cloud-earth" data-wiki-cloud>
-              <svg class="wiki-cloud-globe" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+      <section class="section wiki-field-section">
+        <div class="wrap wiki-field-layout">
+          <div class="wiki-cloud-stage" aria-label="校园维基词汇星图">
+            <div class="wiki-cloud-earth" data-wiki-cloud tabindex="-1">
+              <svg class="wiki-cloud-globe" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                 <circle cx="100" cy="100" r="98" />
                 <!-- 经线 -->
                 <ellipse cx="100" cy="100" rx="24" ry="98" />
@@ -54,9 +56,16 @@
                 <ellipse cx="100" cy="100" rx="98" ry="72" />
                 <line x1="2" y1="100" x2="198" y2="100" />
               </svg>
+              <span class="wiki-field-core" aria-hidden="true"></span>
             </div>
-            <p class="wiki-cloud-hint">关键词均为横向排布 · 点击进入百科正文</p>
+            <p class="wiki-cloud-hint">移动指针探索 · Tab 键逐词浏览 · 点击进入百科正文</p>
           </div>
+          <aside class="wiki-field-preview" data-wiki-preview aria-live="polite">
+            <p class="orbit-kicker">FIELD INDEX 001</p>
+            <h2>空天大学</h2>
+            <p>地球校区里的百年大学，也是这份校园档案共同指向的中心。</p>
+            <a class="text-link" href="wiki-entry.html?id=kongtian">读取词条 <span aria-hidden="true">→</span></a>
+          </aside>
         </div>
       </section>
     </main>
@@ -66,10 +75,10 @@
         <div>社区创作遵循 Attribution-ShareAlike 4.0 International <strong>CC-BY-SA</strong> 许可协议</div>
       </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-    <script src="js/wiki-data.js"></script>
-    <script src="js/wiki-cloud.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/vendor/gsap.min.js"></script>
+    <script src="js/vendor/ScrollTrigger.min.js"></script>
+    <script src="js/wiki-data.js?v=20260809a"></script>
+    <script src="js/wiki-cloud.js?v=20260809a"></script>
+    <script src="js/main.js?v=20260809a"></script>
   </body>
 </html>

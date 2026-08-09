@@ -6,6 +6,7 @@
     <title>论坛 · 空天大学</title>
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/orbital.css?v=20260809a" />
   </head>
   <body>
     <a class="skip" href="#main">跳到主要内容</a>
@@ -28,23 +29,24 @@
     </header>
 
     <main id="main">
-      <section class="page-hero wrap">
-        <p class="script">forum</p>
-        <h1>论坛</h1>
-        <p>功能留白，不假装热闹。</p>
-      </section>
-
-      <section class="section" style="padding-top: 0">
-        <div class="wrap">
-          <div class="panel blank">
-            <p class="script">signal pending</p>
-            <h2>建设中</h2>
-            <p>论坛功能即将开放。</p>
-            <div class="hero-actions" style="justify-content: center">
-              <a class="btn btn-solid" href="index.html">返回首页</a>
-              <a class="btn btn-line" href="weekly.html">校园周报</a>
-            </div>
+      <section class="forum-pending">
+        <div class="forum-radar" aria-hidden="true">
+          <span></span><span></span><span></span><i></i>
+          <img src="assets/emblem.webp" alt="" width="320" height="320" />
+        </div>
+        <div class="forum-pending-copy">
+          <p class="archive-label">CHANNEL 06 · SIGNAL PENDING</p>
+          <p class="script">campus frequency</p>
+          <h1>论坛正在校准频率</h1>
+          <p>我们保留这片安静，不用虚构的帖子填满它。开放之前，可以先去周报听听校园这一周的声音。</p>
+          <div class="hero-actions">
+            <a class="btn btn-solid" href="weekly.html">阅读校园周报</a>
+            <a class="btn btn-line" href="wiki.html">探索校园维基</a>
           </div>
+          <dl class="forum-status">
+            <div><dt>当前状态</dt><dd><span></span> 建设中</dd></div>
+            <div><dt>计划栏目</dt><dd>校园闲聊 · 活动互助 · 创作交流</dd></div>
+          </dl>
         </div>
       </section>
     </main>
@@ -54,8 +56,8 @@
         <div>社区创作遵循 Attribution-ShareAlike 4.0 International <strong>CC-BY-SA</strong> 许可协议</div>
       </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/vendor/gsap.min.js"></script>
+    <script src="js/vendor/ScrollTrigger.min.js"></script>
+    <script src="js/main.js?v=20260809a"></script>
   </body>
 </html>

@@ -6,6 +6,7 @@
     <title>校内机构 · 空天大学</title>
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/orbital.css?v=20260809a" />
   </head>
   <body>
     <a class="skip" href="#main">跳到主要内容</a>
@@ -29,34 +30,46 @@
 
     <main id="main">
       <section class="page-hero wrap">
+        <p class="archive-label">CAMPUS SERVICE CONSTELLATION</p>
         <p class="script">campus offices</p>
         <h1>校内机构</h1>
-        <p>学生会、保卫部与校内服务入口。</p>
+        <p>自治、保卫、诊疗与创作，共同维持地球校区的日常运行。</p>
       </section>
 
-      <section class="section" style="padding-top: 0">
-        <div class="wrap">
-          <div class="modules">
-            <article class="module">
-              <span class="module-tag">Union</span>
-              <h3>学生会</h3>
-              <p>自治与活动统筹。</p>
-            </article>
-            <article class="module">
-              <span class="module-tag">Guard</span>
-              <h3>保卫部</h3>
-              <p>感知科 · 行政科 · 战斗科</p>
-            </article>
-            <article class="module">
-              <span class="module-tag">Clinic</span>
-              <h3>校医院</h3>
-              <p>诊疗与静养空间。</p>
-            </article>
+      <section class="section inner-first-section">
+        <div class="wrap org-directory">
+          <div class="org-map" aria-hidden="true">
+            <span class="org-map-ring org-map-ring-one"></span>
+            <span class="org-map-ring org-map-ring-two"></span>
+            <img src="assets/emblem.webp" alt="" width="360" height="360" />
+            <span class="org-map-caption">地球校区<br />运行中枢</span>
           </div>
-          <article class="panel" style="margin-top: 0.9rem">
-            <h2>文学创作部</h2>
-            <p>部刊与征稿。</p>
-          </article>
+          <div class="org-cards">
+            <article class="module org-card org-card-wide">
+              <span class="module-tag">Student union · 自治中枢</span>
+              <h3>学生会</h3>
+              <p>统筹学生活动与校园自治。保卫部等大型部门沿组织结构向这里汇集。</p>
+              <span class="org-route">活动统筹 · 社团协作 · 公共事务</span>
+            </article>
+            <a class="module org-card" href="wiki-entry.html?id=guard">
+              <span class="module-tag">Guard division · 01</span>
+              <h3>保卫部</h3>
+              <p>感知科、行政科与战斗科共同处理能场异变和大型活动保卫。</p>
+              <span class="module-action">查看机构档案 <i aria-hidden="true">→</i></span>
+            </a>
+            <a class="module org-card" href="wiki-entry.html?id=hospital">
+              <span class="module-tag">Campus clinic · 02</span>
+              <h3>校医院</h3>
+              <p>常规诊疗、留观和静养。病房外有一株被许多人记住的青松。</p>
+              <span class="module-action">查看机构档案 <i aria-hidden="true">→</i></span>
+            </a>
+            <a class="module org-card org-card-wide" href="wiki-entry.html?id=literary">
+              <span class="module-tag">Literary studio · 03</span>
+              <h3>文学创作部</h3>
+              <p>部刊、征稿和写作的人聚在这里；有些故事只在部长换届时传递。</p>
+              <span class="module-action">查看机构档案 <i aria-hidden="true">→</i></span>
+            </a>
+          </div>
         </div>
       </section>
     </main>
@@ -66,8 +79,8 @@
         <div>社区创作遵循 Attribution-ShareAlike 4.0 International <strong>CC-BY-SA</strong> 许可协议</div>
       </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/vendor/gsap.min.js"></script>
+    <script src="js/vendor/ScrollTrigger.min.js"></script>
+    <script src="js/main.js?v=20260809a"></script>
   </body>
 </html>

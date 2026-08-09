@@ -70,9 +70,9 @@
         });
       }
 
-      // Scroll reveal — each card once (avoid nested .modules + .stack double-binding)
-      const cards = gsap.utils.toArray(".module, .panel, [data-reveal]");
-      cards.forEach((el) => {
+      // Opt-in scroll reveal only. Core content stays visible without JS and in full-page captures.
+      const reveals = gsap.utils.toArray("[data-reveal]");
+      reveals.forEach((el) => {
         gsap.from(el, {
           autoAlpha: 0,
           y: 16,
@@ -80,20 +80,6 @@
           ease: "power2.out",
           scrollTrigger: {
             trigger: el,
-            start: "top 92%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-
-      gsap.utils.toArray(".section-head").forEach((head) => {
-        gsap.from(head, {
-          autoAlpha: 0,
-          y: 10,
-          duration: 0.35,
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: head,
             start: "top 92%",
             toggleActions: "play none none none",
           },

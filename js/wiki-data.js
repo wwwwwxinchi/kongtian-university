@@ -380,7 +380,7 @@ window.WIKI_ENTRIES = {
         html: `
           <p>战斗科隶属于保卫部，尝试解决万有能场的异变。</p>
           <p>职位是固定的，且需要在固定时间内参与培训。训练日程会写进学期安排。</p>
-          <p>飞行学院方向常有特长生与战斗科课程交叉；实训、加训、开放日参观，都可能在训练场一带发生。</p>
+          <p>军事学院飞行方向常有特长生与战斗科课程交叉；实训、加训、开放日参观，都可能在训练场一带发生。</p>
         `,
       },
     ],
@@ -484,7 +484,7 @@ window.WIKI_ENTRIES = {
   },
 
   cs: {
-    title: "计算机学院",
+    title: "工程学院",
     summary: "学习氛围极其浓郁。OO 互测是常挂在嘴边的词。",
     toc: [
       {
@@ -499,7 +499,7 @@ window.WIKI_ENTRIES = {
         id: "overview",
         title: "概述",
         html: `
-          <p>计算机学院学习氛围极其浓郁。助教岗、语言班、机房，故事容易在这儿碰头。</p>
+          <p>工程学院学习氛围极其浓郁。助教岗、语言班、机房与工坊，故事容易在这儿碰头。</p>
           <p>也有活泼天真、能量很高的同学，和「埋头写代码」的刻板印象并不完全重合。有人会去做保卫部相关的志愿，乐此不疲。</p>
         `,
       },
@@ -522,7 +522,7 @@ window.WIKI_ENTRIES = {
   },
 
   flight: {
-    title: "飞行学院",
+    title: "军事学院",
     summary: "实训多。与战斗科常有交叉。有特长生身体很壮、很能吃、很会做饭。",
     toc: [{ id: "body", label: "说明" }],
     sections: [
@@ -530,7 +530,7 @@ window.WIKI_ENTRIES = {
         id: "body",
         title: "说明",
         html: `
-          <p>飞行学院实训安排多，与保卫部战斗科的课程常有交叉。</p>
+          <p>军事学院飞行方向实训安排多，与保卫部战斗科的课程常有交叉。</p>
           <p>训练场开放日会有参观名额。加餐传说有时比成绩单传得快——战斗科特长生里，不乏很能吃、很会做饭的人。</p>
           <p>技能方向各不相同：有人擅长增益类能力，印记长在肱二头肌一类显眼的位置。</p>
         `,
@@ -539,7 +539,7 @@ window.WIKI_ENTRIES = {
   },
 
   me: {
-    title: "机械工程学院",
+    title: "工程学院工坊",
     summary: "工坊灯火通明。有人手作比 3D 打印更精巧；也有人印记是齿轮，长在手腕上。",
     toc: [{ id: "body", label: "说明" }],
     sections: [
@@ -547,7 +547,7 @@ window.WIKI_ENTRIES = {
         id: "body",
         title: "说明",
         html: `
-          <p>机械工程学院工坊常年亮着。手作与建模并不互相排斥。</p>
+          <p>工程学院工坊常年亮着。手作与建模并不互相排斥。</p>
           <p>有人技能偏向 3D 自动建模，却坚持手工做得比打印好——小时候拼积木拼出来的手感，后来也用在展览季的展台上。</p>
           <p>印记形状因人而异。齿轮出现在手腕上的例子，在学院里并不罕见。</p>
         `,
@@ -624,9 +624,9 @@ window.WIKI_NAV = [
   {
     label: "院系",
     children: [
-      { id: "cs", label: "计算机学院" },
-      { id: "flight", label: "飞行学院" },
-      { id: "me", label: "机械工程学院" },
+      { id: "cs", label: "工程学院" },
+      { id: "flight", label: "军事学院" },
+      { id: "me", label: "工程学院工坊" },
     ],
   },
   {
@@ -656,9 +656,9 @@ window.WIKI_CLOUD = [
   { id: "oldhall", text: "老校舍", weight: 3 },
   { id: "hospital", text: "校医院", weight: 3 },
   { id: "literary", text: "文学创作部", weight: 3 },
-  { id: "cs", text: "计算机学院", weight: 3 },
-  { id: "flight", text: "飞行学院", weight: 3 },
-  { id: "me", text: "机械工程学院", weight: 3 },
+  { id: "cs", text: "工程学院", weight: 3 },
+  { id: "flight", text: "军事学院", weight: 3 },
+  { id: "me", text: "工程工坊", weight: 3 },
   { id: "blackwin", text: "黑窗口", weight: 3 },
   { id: "field", text: "能量场", weight: 2 },
   { id: "will", text: "执念", weight: 2 },

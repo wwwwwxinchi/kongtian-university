@@ -1,60 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>校园周报 · 空天大学</title>
-    <link rel="icon" href="assets/favicon.png" type="image/png" />
-    <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body>
-    <a class="skip" href="#main">跳到主要内容</a>
-    <header class="site-header">
-      <div class="wrap header-row">
-        <a class="brand" href="index.html">
-          <img src="assets/emblem-white.webp?v=2" alt="" width="36" height="36" />
-          <strong>空天大学</strong>
-        </a>
-        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav">菜单</button>
-        <nav class="nav" id="nav" data-nav aria-label="主导航">
-          <a href="index.html">首页</a>
-          <a href="wiki.html">校园维基百科</a>
-          <a href="orgs.html">校内机构</a>
-          <a href="faculties.html">院系</a>
-          <a href="weekly.html" aria-current="page">校园周报</a>
-          <a href="forum.html">论坛</a>
-        </nav>
-      </div>
-    </header>
-
-    <main id="main">
-      <section class="page-hero wrap">
-        <p class="script">campus weekly</p>
-        <h1>校园周报</h1>
-        <p>定期栏目。比要闻软，比闲聊可归档。</p>
-      </section>
-
-      <section class="section" style="padding-top: 0">
-        <div class="wrap two">
-          <article class="panel">
-            <h2>最新一期</h2>
-            <p>能场天气 · 志愿速报 · 人物小记 · 部刊选载</p>
-          </article>
-          <aside class="panel">
-            <h2>往期归档</h2>
-            <p>按期号浏览往期周报。</p>
-          </aside>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="wrap footer-row">
-        <div>社区创作遵循 Attribution-ShareAlike 4.0 International <strong>CC-BY-SA</strong> 许可协议</div>
-      </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>空天大学校园周报</title>
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/main.css"><link rel="stylesheet" href="css/orbital.css?v=20260809b">
+</head>
+<body class="official-news-page">
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="official-header">
+    <div class="wrap official-header-row">
+      <a class="official-brand" href="index.html"><img src="assets/emblem-white.webp?v=2" alt="" width="48" height="48"><span><strong>空天大学</strong><small>KONGTIAN UNIVERSITY</small></span></a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav">菜单</button>
+      <nav class="official-nav" id="nav" data-nav aria-label="主导航"><a href="index.html">首页</a><a href="overview.html">学校概况</a><a href="faculties.html">院系设置</a><a href="research.html">教学科研</a><a href="campus-life.html">校园生活</a><a href="weekly.html" aria-current="page">校园周报</a><button class="official-search" type="button" data-news-search aria-label="搜索校园新闻">搜索</button></nav>
+    </div>
+  </header>
+  <main id="main" data-weekly-app></main>
+  <footer class="official-footer"><div class="wrap official-footer-grid"><div><strong>空天大学</strong><p>学校地址：地球校区空天大道 1 号（占位）<br>联系电话：000-00000000（占位）</p></div><nav aria-label="页脚导航"><a href="campus-life.html">学生事务</a><a href="#">信息公开</a><a href="#">校园地图</a></nav><p>© 2026 空天大学 · 版权所有</p></div></footer>
+  <script src="js/weekly-data.js?v=20260809b"></script><script src="js/weekly.js?v=20260809b"></script><script src="js/main.js?v=20260809b"></script>
+  <script>document.querySelector('[data-news-search]')?.addEventListener('click',()=>{const q=prompt('搜索校园新闻');if(q){const hit=[...document.querySelectorAll('.weekly-news-list a,.weekly-research-grid a,.weekly-life-grid a')].find(a=>a.textContent.includes(q));hit?.scrollIntoView({behavior:'smooth',block:'center'});hit?.focus();}});</script>
+</body>
 </html>
