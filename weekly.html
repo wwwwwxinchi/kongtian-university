@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>空天大学校园周报</title>
   <link rel="icon" href="assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="css/main.css"><link rel="stylesheet" href="css/orbital.css?v=20260809b">
+  <link rel="stylesheet" href="css/main.css"><link rel="stylesheet" href="css/orbital.css?v=20260811a">
 </head>
 <body class="official-news-page">
   <a class="skip" href="#main">跳到主要内容</a>
@@ -12,12 +12,25 @@
     <div class="wrap official-header-row">
       <a class="official-brand" href="index.html"><img src="assets/emblem-white.webp?v=2" alt="" width="48" height="48"><span><strong>空天大学</strong><small>KONGTIAN UNIVERSITY</small></span></a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav">菜单</button>
-      <nav class="official-nav" id="nav" data-nav aria-label="主导航"><a href="index.html">首页</a><a href="overview.html">学校概况</a><a href="faculties.html">院系设置</a><a href="research.html">教学科研</a><a href="campus-life.html">校园生活</a><a href="weekly.html" aria-current="page">校园周报</a><button class="official-search" type="button" data-news-search aria-label="搜索校园新闻">搜索</button></nav>
+      <nav class="official-nav" id="nav" data-nav aria-label="主导航"><a href="index.html">首页</a><a href="wiki.html">校园维基百科</a><a href="orgs.html">校内机构</a><a href="faculties.html">院系</a><a href="weekly.html" aria-current="page">校园周报</a><a href="forum.html">论坛</a><button class="official-search" type="button" data-news-search aria-expanded="false" aria-controls="weekly-search-panel">搜索</button></nav>
     </div>
   </header>
+  <section class="weekly-search-panel" id="weekly-search-panel" data-weekly-search hidden>
+    <div class="wrap weekly-search-inner">
+      <form class="weekly-search-form" role="search" data-weekly-search-form>
+        <label for="weekly-search-input">搜索校园周报</label>
+        <div class="weekly-search-control">
+          <input id="weekly-search-input" name="q" type="search" autocomplete="off" placeholder="输入标题、摘要或栏目" data-weekly-search-input>
+          <button type="submit">搜索</button>
+          <button class="weekly-search-close" type="button" data-weekly-search-close>关闭</button>
+        </div>
+        <p class="weekly-search-help">搜索范围包括全部期数的报道。</p>
+      </form>
+      <div class="weekly-search-results" data-weekly-search-results aria-live="polite"></div>
+    </div>
+  </section>
   <main id="main" data-weekly-app></main>
   <footer class="official-footer"><div class="wrap official-footer-grid"><div><strong>空天大学</strong><p>学校地址：地球校区空天大道 1 号（占位）<br>联系电话：000-00000000（占位）</p></div><nav aria-label="页脚导航"><a href="campus-life.html">学生事务</a><a href="#">信息公开</a><a href="#">校园地图</a></nav><p>© 2026 空天大学 · 版权所有</p></div></footer>
-  <script src="js/weekly-data.js?v=20260809b"></script><script src="js/weekly.js?v=20260809b"></script><script src="js/main.js?v=20260809b"></script>
-  <script>document.querySelector('[data-news-search]')?.addEventListener('click',()=>{const q=prompt('搜索校园新闻');if(q){const hit=[...document.querySelectorAll('.weekly-news-list a,.weekly-research-grid a,.weekly-life-grid a')].find(a=>a.textContent.includes(q));hit?.scrollIntoView({behavior:'smooth',block:'center'});hit?.focus();}});</script>
+  <script src="js/weekly-data.js?v=20260811a"></script><script src="js/weekly.js?v=20260811a"></script><script src="js/main.js?v=20260811a"></script>
 </body>
 </html>

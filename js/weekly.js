@@ -6,6 +6,87 @@
   let issueId = params.get("issue") || data.issues[0].id;
   let category = "全部";
 
+  const searchToggle = document.querySelector("[data-news-search]");
+  const searchPanel = document.querySelector("[data-weekly-search]");
+  const searchForm = document.querySelector("[data-weekly-search-form]");
+  const searchInput = document.querySelector("[data-weekly-search-input]");
+  const searchResults = document.querySelector("[data-weekly-search-results]");
+  const searchClose = document.querySelector("[data-weekly-search-close]");
+  const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;",
+  }[character]));
+
+  const setSearchUrl = (query) => {
+    const url = new URL(location.href);
+    if (query) url.searchParams.set("q", query);
+    else url.searchParams.delete("q");
+    history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  };
+
+  const renderSearch = (query, updateUrl = true) => {
+    if (!searchPanel || !searchInput || !searchResults) return;
+    const normalized = query.trim().toLocaleLowerCase("zh-CN");
+    searchPanel.hidden = false;
+    searchToggle?.setAttribute("aria-expanded", "true");
+    searchInput.value = query;
+    if (updateUrl) setSearchUrl(query.trim());
+
+    if (!normalized) {
+      searchResults.innerHTML = '<p class="weekly-search-empty">输入关键词后，将在全部期数的标题、摘要和栏目中搜索。</p>';
+      return;
+    }
+
+    const matches = data.articles.filter((article) =>
+      [article.title, article.summary, article.category].some((field) =>
+        field.toLocaleLowerCase("zh-CN").includes(normalized)
+      )
+    );
+    if (!matches.length) {
+      searchResults.innerHTML = `<p class="weekly-search-empty"><strong>没有找到“${escapeHtml(query.trim())}”</strong><span>可以尝试学院名称、活动主题，或“科研动态”“校园生活”等栏目名称。</span></p>`;
+      return;
+    }
+
+    searchResults.innerHTML = `
+      <p class="weekly-search-count">找到 ${matches.length} 篇报道</p>
+      <div class="weekly-search-list">${matches.map((article) => {
+        const issue = data.issues.find((item) => item.id === article.issueId);
+        return `<a href="weekly-article.html?id=${encodeURIComponent(article.id)}">
+          <span>${escapeHtml(issue?.label || article.issueId)} · ${escapeHtml(article.category)} · ${escapeHtml(article.date)}</span>
+          <strong>${escapeHtml(article.title)}</strong>
+          <p>${escapeHtml(article.summary)}</p>
+        </a>`;
+      }).join("")}</div>`;
+  };
+
+  const openSearch = () => {
+    if (!searchPanel || !searchInput) return;
+    renderSearch(searchInput.value, false);
+    requestAnimationFrame(() => searchInput.focus());
+  };
+
+  const closeSearch = () => {
+    if (!searchPanel) return;
+    searchPanel.hidden = true;
+    searchToggle?.setAttribute("aria-expanded", "false");
+    setSearchUrl("");
+    searchToggle?.focus();
+  };
+
+  searchToggle?.addEventListener("click", () => searchPanel?.hidden ? openSearch() : closeSearch());
+  searchClose?.addEventListener("click", closeSearch);
+  searchForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    renderSearch(searchInput?.value || "");
+  });
+  let searchTimer;
+  searchInput?.addEventListener("input", () => {
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(() => renderSearch(searchInput.value), 120);
+  });
+  searchInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeSearch();
+  });
+
   const link = (article, className = "") => `<a class="${className}" href="weekly-article.html?id=${encodeURIComponent(article.id)}">
     <span class="weekly-meta">${article.date.slice(5).replace("-", ".")} · ${article.category}</span>
     <strong>${article.title}</strong><span>${article.summary}</span>
@@ -40,8 +121,17 @@
       <section class="weekly-life wrap"><header class="weekly-section-head"><div><p class="weekly-section-label">LIFE ON CAMPUS</p><h2>校园生活</h2></div><p>课表之外，校园仍在继续生长。</p></header><div class="weekly-life-grid">${life.map((item, index) => `<article><span class="weekly-life-no">0${index + 1}</span>${link(item)}</article>`).join("")}</div></section>
       <section class="weekly-utility wrap"><div><header class="weekly-section-head"><div><p class="weekly-section-label">THIS WEEK</p><h2>本周日历</h2></div></header><ol class="weekly-calendar">${data.events.map((event) => `<li><time>${event.day}<small>${event.date}</small></time><div><strong>${event.title}</strong><span>${event.note}</span></div></li>`).join("")}</ol></div><aside><header class="weekly-section-head"><div><p class="weekly-section-label">NOTICES</p><h2>通知</h2></div></header><ul class="weekly-notices">${data.notices.map((notice) => `<li><strong>${notice.title}</strong><p>${notice.text}</p></li>`).join("")}</ul></aside></section>`;
 
-    root.querySelector("[data-issue-select]")?.addEventListener("change", (event) => { issueId = event.target.value; history.replaceState(null, "", `?issue=${issueId}`); category = "全部"; render(); });
+    root.querySelector("[data-issue-select]")?.addEventListener("change", (event) => {
+      issueId = event.target.value;
+      const url = new URL(location.href);
+      url.searchParams.set("issue", issueId);
+      history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      category = "全部";
+      render();
+    });
     root.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => { category = button.dataset.category; render(); }));
   };
   render();
+  const initialQuery = params.get("q");
+  if (initialQuery) renderSearch(initialQuery, false);
 })();

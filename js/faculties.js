@@ -52,7 +52,7 @@
     </div>
     <div class="faculty-orbit-core" aria-hidden="true">
       <span class="faculty-core-halo"></span>
-      <img src="assets/faculty-emblems/center/university-seal-center-circle.png" alt="" width="5427" height="5427" />
+      <img src="assets/faculty-emblems/center/university-seal-center-circle-web.png" alt="" width="1400" height="1400" />
     </div>
     <span class="faculty-orbit-station" aria-hidden="true"><i></i></span>
   `;

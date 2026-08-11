@@ -190,7 +190,7 @@ button {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding-left: max(1.25rem, calc((100vw - var(--max)) / 2 + 1.25rem));
+  padding-left: max(1.25rem, min(calc((100vw - var(--max)) / 2 + 1.25rem), calc(100% - 28rem)));
   padding-right: 1rem;
 }
 

@@ -32,7 +32,7 @@
 
       if (reduce) {
         gsap.set(
-          [".hero-copy > *", ".hero-cast-art", ".module", ".panel", ".page-hero > *", "[data-reveal]"],
+          [".hero-copy > *", ".hero-cast-art", ".module", ".panel", ".page-hero > *", "[data-reveal]", "[data-home-signal] > *"],
           { clearProps: "all" }
         );
         return;
@@ -86,6 +86,44 @@
         });
       });
 
+      // Directory cards arrive as one orbital sequence instead of unrelated effects.
+      gsap.utils.toArray("[data-reveal-group]").forEach((group) => {
+        gsap.from(group.children, {
+          autoAlpha: 0,
+          y: 22,
+          scale: 0.975,
+          duration: 0.48,
+          stagger: 0.055,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: group,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        });
+      });
+
+      const homeSignal = document.querySelector("[data-home-signal]");
+      if (homeSignal) {
+        const signalArt = homeSignal.querySelector(".home-signal-art");
+        const signalCopy = homeSignal.querySelector(":scope > div:last-child");
+        gsap.from([signalArt, signalCopy], {
+          autoAlpha: 0,
+          y: 20,
+          duration: 0.55,
+          stagger: 0.08,
+          ease: "power2.out",
+          scrollTrigger: { trigger: homeSignal, start: "top 86%", toggleActions: "play none none none" },
+        });
+        if (signalArt) {
+          gsap.to(signalArt, {
+            yPercent: -7,
+            ease: "none",
+            scrollTrigger: { trigger: homeSignal, start: "top bottom", end: "bottom top", scrub: 0.55 },
+          });
+        }
+      }
+
       // Soft hover lift via GSAP quickTo for modules (pointer devices)
       if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
         gsap.utils.toArray("a.module, .module").forEach((card) => {
@@ -93,6 +131,28 @@
           card.addEventListener("pointerenter", () => yTo(-4));
           card.addEventListener("pointerleave", () => yTo(0));
         });
+
+        const hero = document.querySelector(".hero");
+        const heroImage = hero?.querySelector(".hero-cast-art img");
+        const heroMark = hero?.querySelector(".hero-mark");
+        if (hero && heroImage && heroMark) {
+          const imageX = gsap.quickTo(heroImage, "x", { duration: 0.6, ease: "power2.out" });
+          const imageY = gsap.quickTo(heroImage, "y", { duration: 0.6, ease: "power2.out" });
+          const markX = gsap.quickTo(heroMark, "x", { duration: 0.45, ease: "power2.out" });
+          const markY = gsap.quickTo(heroMark, "y", { duration: 0.45, ease: "power2.out" });
+          hero.addEventListener("pointermove", (event) => {
+            const rect = hero.getBoundingClientRect();
+            const nx = event.clientX / rect.width - 0.5;
+            const ny = (event.clientY - rect.top) / rect.height - 0.5;
+            imageX(nx * 9);
+            imageY(ny * 7);
+            markX(nx * -4);
+            markY(ny * -3);
+          });
+          hero.addEventListener("pointerleave", () => {
+            imageX(0); imageY(0); markX(0); markY(0);
+          });
+        }
       }
 
       return () => {

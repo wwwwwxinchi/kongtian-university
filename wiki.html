@@ -7,7 +7,7 @@
     <meta name="description" content="空天大学校园维基百科词云入口" />
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/orbital.css?v=20260809a" />
+    <link rel="stylesheet" href="css/orbital.css?v=20260811a" />
   </head>
   <body>
     <a class="skip" href="#main">跳到主要内容</a>
@@ -42,7 +42,7 @@
       <section class="section wiki-field-section">
         <div class="wrap wiki-field-layout">
           <div class="wiki-cloud-stage" aria-label="校园维基词汇星图">
-            <div class="wiki-cloud-earth" data-wiki-cloud tabindex="-1">
+            <div class="wiki-cloud-earth" data-wiki-cloud tabindex="0" role="region" aria-label="可旋转的校园维基词条球体。拖动或使用方向键旋转，Tab 键逐词浏览。">
               <svg class="wiki-cloud-globe" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                 <circle cx="100" cy="100" r="98" />
                 <!-- 经线 -->
@@ -58,7 +58,7 @@
               </svg>
               <span class="wiki-field-core" aria-hidden="true"></span>
             </div>
-            <p class="wiki-cloud-hint">移动指针探索 · Tab 键逐词浏览 · 点击进入百科正文</p>
+            <p class="wiki-cloud-hint">拖动或方向键旋转 · Tab 键逐词浏览 · 点击进入百科正文</p>
           </div>
           <aside class="wiki-field-preview" data-wiki-preview aria-live="polite">
             <p class="orbit-kicker">FIELD INDEX 001</p>
@@ -78,7 +78,7 @@
     <script src="js/vendor/gsap.min.js"></script>
     <script src="js/vendor/ScrollTrigger.min.js"></script>
     <script src="js/wiki-data.js?v=20260809a"></script>
-    <script src="js/wiki-cloud.js?v=20260809a"></script>
-    <script src="js/main.js?v=20260809a"></script>
+    <script src="js/wiki-cloud.js?v=20260811a"></script>
+    <script src="js/main.js?v=20260811a"></script>
   </body>
 </html>

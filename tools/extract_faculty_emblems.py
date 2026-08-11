@@ -49,6 +49,17 @@ FACULTIES = (
     Faculty("chemistry", "化学与材料学院", (334, 107), 130),
 )
 
+# Several pictograms sit unusually close to the neighboring orbital rules in the
+# master seal. These conservative masks keep the complete pictogram while
+# excluding the detached rule fragments visible in the previous web crops.
+SAFE_RADIUS = {
+    "education": 0.46,
+    "history": 0.46,
+    "physics": 0.46,
+    "agriculture": 0.44,
+    "field": 0.46,
+}
+
 
 def transparent_white_lines(crop: Image.Image) -> Image.Image:
     """Keep the source's white line work and remove its blue background."""
@@ -104,6 +115,98 @@ def keep_central_disc(icon: Image.Image, radius_ratio: float = 0.43) -> Image.Im
     disc = (xx - width / 2) ** 2 + (yy - height / 2) ** 2 <= radius ** 2
     rgba[..., 3] = np.where(disc, rgba[..., 3], 0)
     return Image.fromarray(rgba, "RGBA")
+
+
+def normalize_icon(icon: Image.Image, canvas_size: int = 640, art_size: int = 520) -> Image.Image:
+    """Place every extracted pictogram on the same optical canvas and scale."""
+    alpha = icon.getchannel("A")
+    bbox = alpha.point(lambda value: 255 if value > 12 else 0).getbbox()
+    if not bbox:
+        return Image.new("RGBA", (canvas_size, canvas_size), (255, 255, 255, 0))
+
+    cropped = icon.crop(bbox)
+    scaled = ImageOps.contain(cropped, (art_size, art_size), Image.Resampling.LANCZOS)
+    rgba = np.asarray(scaled, dtype=np.uint8)
+    weights = rgba[..., 3].astype(np.float64)
+    total = weights.sum()
+    if total:
+        yy, xx = np.indices(weights.shape)
+        centroid_x = float((xx * weights).sum() / total)
+        centroid_y = float((yy * weights).sum() / total)
+    else:
+        centroid_x = scaled.width / 2
+        centroid_y = scaled.height / 2
+
+    x = round(canvas_size / 2 - centroid_x)
+    y = round(canvas_size / 2 - centroid_y)
+    margin = 28
+    x = max(margin - scaled.width, min(canvas_size - margin, x))
+    y = max(margin - scaled.height, min(canvas_size - margin, y))
+    canvas = Image.new("RGBA", (canvas_size, canvas_size), (255, 255, 255, 0))
+    canvas.alpha_composite(scaled, (x, y))
+    return canvas
+
+
+def remove_known_artifacts(icon: Image.Image, slug: str) -> Image.Image:
+    """Remove detached neighboring rules without redrawing source line work."""
+    rgba = np.asarray(icon).copy()
+    height, width = rgba.shape[:2]
+    yy, xx = np.ogrid[:height, :width]
+    masks = {
+        "education": (xx > width * 0.64) & (yy < height * 0.34),
+        "history": (xx < width * 0.29) & (yy > height * 0.18) & (yy < height * 0.70),
+        "physics": (xx < width * 0.36) & (yy < height * 0.36),
+        "agriculture": yy < height * 0.19,
+        "field": (xx < width * 0.33) & (yy > height * 0.57),
+    }
+    mask = masks.get(slug)
+    if mask is not None:
+        rgba[..., 3] = np.where(mask, 0, rgba[..., 3])
+    return Image.fromarray(rgba, "RGBA")
+
+
+def keep_centered_components(icon: Image.Image, radius_ratio: float) -> Image.Image:
+    """Keep detached pictogram details near the optical center, not orbit debris."""
+    rgba = np.asarray(icon).copy()
+    alpha = rgba[..., 3]
+    labels, count = ndimage.label(alpha > 18, structure=np.ones((3, 3), dtype=np.uint8))
+    height, width = alpha.shape
+    center_x, center_y = width / 2, height / 2
+    keep = np.zeros_like(alpha, dtype=bool)
+    components: list[tuple[int, int, float]] = []
+    for label_id in range(1, count + 1):
+        ys, xs = np.where(labels == label_id)
+        if not len(xs):
+            continue
+        distance = math_hypot(float(xs.mean()) - center_x, float(ys.mean()) - center_y)
+        components.append((len(xs), label_id, distance))
+
+    largest = max(components, default=(0, 0, 0.0))[1]
+    radius = min(width, height) * radius_ratio
+    for area, label_id, distance in components:
+        if label_id == largest or (distance <= radius and area >= 6):
+            keep[labels == label_id] = True
+    rgba[..., 3] = np.where(keep, alpha, 0)
+    return Image.fromarray(rgba, "RGBA")
+
+
+def remove_normalized_artifacts(icon: Image.Image, slug: str) -> Image.Image:
+    rgba = np.asarray(icon).copy()
+    height, width = rgba.shape[:2]
+    yy, xx = np.ogrid[:height, :width]
+    if slug == "education":
+        mask = (
+            ((xx > width * 0.63) & (yy < height * 0.47))
+            | ((xx > width * 0.46) & (yy < height * 0.16))
+            | (xx > width * 0.71)
+        )
+        rgba[..., 3] = np.where(mask, 0, rgba[..., 3])
+    elif slug == "field":
+        mask = (xx < width * 0.43) & (yy > height * 0.57)
+        rgba[..., 3] = np.where(mask, 0, rgba[..., 3])
+    return Image.fromarray(rgba, "RGBA")
+
+
 def crop_square(image: Image.Image, cx: float, cy: float, size: int) -> Image.Image:
     half = size // 2
     return image.crop((round(cx - half), round(cy - half), round(cx + half), round(cy + half)))
@@ -153,10 +256,19 @@ def main() -> None:
             raw.save(raw_path, compress_level=6)
 
             transparent = transparent_white_lines(raw)
-            if faculty.slug in {"education", "physics", "field"}:
-                transparent = keep_central_disc(transparent, 0.45)
+            if faculty.slug in SAFE_RADIUS:
+                transparent = keep_central_disc(transparent, SAFE_RADIUS[faculty.slug])
             else:
                 transparent = remove_neighboring_ring_artifacts(transparent)
+            transparent = remove_known_artifacts(transparent, faculty.slug)
+            transparent = normalize_icon(transparent)
+            if faculty.slug == "field":
+                transparent = keep_centered_components(transparent, 0.0)
+            elif faculty.slug == "education":
+                transparent = keep_centered_components(transparent, 0.32)
+            elif faculty.slug in {"history", "physics"}:
+                transparent = keep_centered_components(transparent, 0.36)
+            transparent = remove_normalized_artifacts(transparent, faculty.slug)
             web_path = WEB_DIR / f"{index + 1:02d}-{faculty.slug}.png"
             transparent.save(web_path, compress_level=6)
             web_items.append((faculty, transparent))
@@ -175,6 +287,9 @@ def main() -> None:
         circle_alpha = np.asarray(mask, dtype=np.uint16)
         circular.putalpha(Image.fromarray((alpha * circle_alpha // 255).astype(np.uint8), "L"))
         circular.save(CENTER_DIR / "university-seal-center-circle.png", compress_level=6)
+
+        web_center = ImageOps.contain(circular, (1400, 1400), Image.Resampling.LANCZOS)
+        web_center.save(CENTER_DIR / "university-seal-center-circle-web.png", optimize=True)
 
         make_contact_sheet(web_items)
 if __name__ == "__main__":
