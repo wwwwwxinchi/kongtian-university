@@ -1290,7 +1290,7 @@ a.module:hover,
 
 /* Forum pending */
 .forum-pending { min-height: calc(100vh - 72px); display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:clamp(2rem,7vw,8rem); width:min(1280px,calc(100% - 3rem)); margin:0 auto; padding:4rem 0; }
-.forum-radar { position:relative; aspect-ratio:1; display:grid; place-items:center; }
+.forum-radar { position:relative; aspect-ratio:1; display:grid; place-items:center; overflow:hidden; border-radius:50%; }
 .forum-radar > span { position:absolute; border:1px solid rgba(39,126,175,.2); border-radius:50%; }
 .forum-radar > span:nth-child(1){inset:5%;}
 .forum-radar > span:nth-child(2){inset:18%;border-style:dashed;}
@@ -1564,7 +1564,14 @@ a.module:hover,
   .wiki-field-layout { grid-template-columns:1fr; }
   .wiki-field-preview { max-width:620px; margin:0 auto; }
   .org-directory { grid-template-columns:1fr; }
-  .org-map { position:relative; top:auto; min-height:460px; }
+  .org-map {
+    position:relative;
+    top:auto;
+    width:min(100%,520px);
+    min-height:0;
+    aspect-ratio:1 / 1;
+    margin-inline:auto;
+  }
   .forum-pending { grid-template-columns:1fr; padding:3rem 0 5rem; }
   .forum-radar { width:min(100%,540px); margin:0 auto; }
   .weekly-archive-grid { grid-template-columns:1fr; }
@@ -1581,7 +1588,9 @@ a.module:hover,
 @media (max-width: 600px) {
   .archive-label { letter-spacing:.12em; }
   .hero h1 { font-size:2.8rem; }
+  .hero-copy { overflow-x:visible; }
   .motto { white-space:normal; }
+  .hero-line { white-space:normal; overflow-wrap:anywhere; }
   .hero-actions { flex-direction:column; align-items:stretch; }
   .hero-actions .btn { width:100%; justify-content:center; }
   .hero-facts { grid-template-columns:1fr; }
@@ -1593,6 +1602,11 @@ a.module:hover,
   .official-brand img { width:40px; height:40px; }
   .official-brand strong { font-size:1.05rem; }
   .weekly-masthead { padding-top:3.5rem; }
+  .weekly-masthead h1 {
+    font-size:clamp(2rem,10.4vw,2.45rem);
+    line-height:1.12;
+    white-space:nowrap;
+  }
   .weekly-issue-picker,.weekly-issue-picker select { width:100%; }
   .weekly-search-control { grid-template-columns:1fr 1fr; }
   .weekly-search-control input { grid-column:1 / -1; font-size:1rem; }
@@ -1600,6 +1614,7 @@ a.module:hover,
   .weekly-rule { gap:1rem; flex-direction:column; }
   .weekly-feature { min-height:0; padding-top:1.6rem; }
   .weekly-feature-copy { padding:1.2rem 0 2rem; }
+  .weekly-feature-copy h2 { font-size:1.75rem; line-height:1.28; }
   .weekly-feature-art { min-height:300px; }
   .weekly-section-head { align-items:start; flex-direction:column; }
   .weekly-filters { gap:.7rem 1.1rem; }
@@ -1615,14 +1630,32 @@ a.module:hover,
   .official-notice-band .wrap { grid-template-columns:1fr; gap:.5rem; }
 
   .faculty-orbit-copy h1 { font-size:3rem; }
-  .faculty-orbit-scene { width:min(620px,166vw); margin-left:50%; transform:translateX(-50%); }
-  .faculty-orbit-ring { --orbit-radius:282px; }
+  .faculty-orbit-scene {
+    width:min(100%,360px);
+    margin:1.5rem auto 1rem;
+    transform:none;
+  }
+  .faculty-orbit-ring { --orbit-radius:clamp(120px,35vw,132px); }
+  .faculty-orbit-node { width:52px; min-height:52px; }
+  .faculty-medallion { width:46px; height:46px; }
+  .faculty-orbit-node:hover .faculty-medallion,
+  .faculty-orbit-node:focus-visible .faculty-medallion,
+  .faculty-orbit-node.is-active .faculty-medallion { width:52px; height:52px; }
+  .faculty-node-name { top:calc(50% + 27px); max-width:110px; font-size:.6rem; }
+  .faculty-orbit-core { inset:22%; }
+  .faculty-core-halo { inset:-.8rem; }
+  .faculty-orbit-station { display:none; }
   .faculty-preview { padding:1.3rem; }
   .faculty-orbit-order { font-size:.68rem; }
   .faculty-roster-section { padding-top:2.5rem; }
 
-  .wiki-cloud-earth { width:100%; height:520px; aspect-ratio:auto; margin-left:0; }
-  .wiki-cloud-stage { overflow:visible; margin-inline:0; padding-inline:0; }
+  .wiki-cloud-earth {
+    width:100%;
+    height:auto;
+    aspect-ratio:1 / 1;
+    margin-left:0;
+  }
+  .wiki-cloud-stage { overflow:hidden; margin-inline:0; padding-inline:0; }
   .wiki-cloud-word[data-weight="5"] { font-size:1.55rem; }
   .wiki-cloud-word[data-weight="4"] { font-size:1.2rem; }
   .wiki-cloud-word[data-weight="3"] { font-size:.98rem; }
@@ -1630,13 +1663,15 @@ a.module:hover,
 
   .org-cards { grid-template-columns:1fr; }
   .org-card-wide { grid-column:1; }
-  .org-map { min-height:350px; }
+  .org-map { min-height:0; aspect-ratio:1 / 1; }
   .weekly-cover { min-height:0; grid-template-rows:auto 280px; }
   .weekly-cover-copy { padding:2rem 1.4rem; }
   .weekly-cover-copy h2 { font-size:2rem; }
   .weekly-cover-image { height:280px; min-height:0; }
   .weekly-index,.weekly-archive { padding:1.2rem; }
   .forum-pending { width:calc(100% - 2rem); }
+  .forum-radar img,
+  .org-map img { height:auto; }
   .forum-pending-copy h1 { font-size:2.8rem; }
   .forum-status div { grid-template-columns:1fr; gap:.15rem; }
   .faculty-detail-main { padding-top:1.2rem; }

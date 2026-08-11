@@ -6,11 +6,17 @@
       const open = nav.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", String(open));
     });
-    nav.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
+    nav.querySelectorAll("a, button").forEach((control) => {
+      control.addEventListener("click", () => {
         nav.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
       });
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || !nav.classList.contains("is-open")) return;
+      nav.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.focus();
     });
   }
 
