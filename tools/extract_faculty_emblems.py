@@ -49,6 +49,18 @@ FACULTIES = (
     Faculty("chemistry", "化学与材料学院", (334, 107), 130),
 )
 
+# These five pictograms need tighter source-space boxes than the generic square
+# crops below.  The old cleanup masks clipped legitimate outer strokes (and, for
+# the yin-yang, alpha-centroid alignment was optically misleading).  Coordinates
+# are measured on the 960 px source preview and map back to the official 8K art.
+PRECISE_WEB_BOXES = {
+    "education": (796, 263, 899, 381),
+    "physics": (706, 693, 809, 816),
+    "field": (142, 697, 272, 819),
+    "mystic": (48, 430, 140, 530),
+    "chemistry": (292, 69, 382, 169),
+}
+
 # Several pictograms sit unusually close to the neighboring orbital rules in the
 # master seal. These conservative masks keep the complete pictogram while
 # excluding the detached rule fragments visible in the previous web crops.
@@ -147,6 +159,75 @@ def normalize_icon(icon: Image.Image, canvas_size: int = 640, art_size: int = 52
     return canvas
 
 
+def normalize_icon_by_bounds(
+    icon: Image.Image, canvas_size: int = 640, art_size: int = 520
+) -> Image.Image:
+    """Center an isolated pictogram by its outer geometry rather than ink weight."""
+    alpha = icon.getchannel("A")
+    bbox = alpha.point(lambda value: 255 if value > 12 else 0).getbbox()
+    if not bbox:
+        return Image.new("RGBA", (canvas_size, canvas_size), (255, 255, 255, 0))
+
+    cropped = icon.crop(bbox)
+    scaled = ImageOps.contain(cropped, (art_size, art_size), Image.Resampling.LANCZOS)
+    canvas = Image.new("RGBA", (canvas_size, canvas_size), (255, 255, 255, 0))
+    canvas.alpha_composite(
+        scaled,
+        ((canvas_size - scaled.width) // 2, (canvas_size - scaled.height) // 2),
+    )
+    return canvas
+
+
+def keep_precise_pictogram_components(icon: Image.Image, slug: str) -> Image.Image:
+    """Discard nearby seal rules while retaining disconnected emblem details."""
+    if slug == "mystic":
+        return icon
+
+    rgba = np.asarray(icon).copy()
+    alpha = rgba[..., 3]
+    labels, count = ndimage.label(alpha > 18, structure=np.ones((3, 3), dtype=np.uint8))
+    height, width = alpha.shape
+    keep = np.zeros_like(alpha, dtype=bool)
+    component_sizes = np.bincount(labels.ravel())
+    largest_label = int(component_sizes[1:].argmax() + 1) if count else 0
+
+    for label_id in range(1, count + 1):
+        ys, xs = np.where(labels == label_id)
+        area = len(xs)
+        if not area:
+            continue
+
+        touches_edge = (
+            xs.min() <= 1
+            or ys.min() <= 1
+            or xs.max() >= width - 2
+            or ys.max() >= height - 2
+        )
+        if touches_edge and not (slug == "field" and label_id == largest_label):
+            continue
+
+        centroid_x = float(xs.mean()) / width
+        centroid_y = float(ys.mean()) / height
+        if slug == "physics" and area < 7000:
+            continue
+        if slug == "field" and area < 200:
+            continue
+        if slug == "field" and label_id != largest_label and centroid_y < 0.08:
+            continue
+        if slug == "field" and centroid_x > 0.72 and centroid_y < 0.30:
+            continue
+        if slug == "chemistry" and centroid_y > 0.90:
+            continue
+        keep[labels == label_id] = True
+
+    if slug == "field":
+        yy, xx = np.ogrid[:height, :width]
+        keep &= ~((xx > width * 0.94) & (yy < height * 0.28))
+
+    rgba[..., 3] = np.where(keep, alpha, 0)
+    return Image.fromarray(rgba, "RGBA")
+
+
 def remove_known_artifacts(icon: Image.Image, slug: str) -> Image.Image:
     """Remove detached neighboring rules without redrawing source line work."""
     rgba = np.asarray(icon).copy()
@@ -212,6 +293,21 @@ def crop_square(image: Image.Image, cx: float, cy: float, size: int) -> Image.Im
     return image.crop((round(cx - half), round(cy - half), round(cx + half), round(cy + half)))
 
 
+def crop_preview_box(image: Image.Image, box: tuple[int, int, int, int]) -> Image.Image:
+    """Crop a box authored against the 960 px inspection preview at source quality."""
+    scale_x = image.width / 960
+    scale_y = image.height / 960
+    left, top, right, bottom = box
+    return image.crop(
+        (
+            round(left * scale_x),
+            round(top * scale_y),
+            round(right * scale_x),
+            round(bottom * scale_y),
+        )
+    )
+
+
 def make_contact_sheet(items: list[tuple[Faculty, Image.Image]]) -> None:
     cell_w, cell_h = 360, 410
     sheet = Image.new("RGB", (cell_w * 4, cell_h * 4), "#eef4f8")
@@ -255,20 +351,27 @@ def main() -> None:
             raw_path = RAW_DIR / f"{index + 1:02d}-{faculty.slug}.png"
             raw.save(raw_path, compress_level=6)
 
-            transparent = transparent_white_lines(raw)
-            if faculty.slug in SAFE_RADIUS:
-                transparent = keep_central_disc(transparent, SAFE_RADIUS[faculty.slug])
+            precise_box = PRECISE_WEB_BOXES.get(faculty.slug)
+            if precise_box is not None:
+                isolated = crop_preview_box(source, precise_box)
+                transparent = transparent_white_lines(isolated)
+                transparent = keep_precise_pictogram_components(transparent, faculty.slug)
+                transparent = normalize_icon_by_bounds(transparent)
             else:
-                transparent = remove_neighboring_ring_artifacts(transparent)
-            transparent = remove_known_artifacts(transparent, faculty.slug)
-            transparent = normalize_icon(transparent)
-            if faculty.slug == "field":
-                transparent = keep_centered_components(transparent, 0.0)
-            elif faculty.slug == "education":
-                transparent = keep_centered_components(transparent, 0.32)
-            elif faculty.slug in {"history", "physics"}:
-                transparent = keep_centered_components(transparent, 0.36)
-            transparent = remove_normalized_artifacts(transparent, faculty.slug)
+                transparent = transparent_white_lines(raw)
+                if faculty.slug in SAFE_RADIUS:
+                    transparent = keep_central_disc(transparent, SAFE_RADIUS[faculty.slug])
+                else:
+                    transparent = remove_neighboring_ring_artifacts(transparent)
+                transparent = remove_known_artifacts(transparent, faculty.slug)
+                transparent = normalize_icon(transparent)
+                if faculty.slug == "field":
+                    transparent = keep_centered_components(transparent, 0.0)
+                elif faculty.slug == "education":
+                    transparent = keep_centered_components(transparent, 0.32)
+                elif faculty.slug in {"history", "physics"}:
+                    transparent = keep_centered_components(transparent, 0.36)
+                transparent = remove_normalized_artifacts(transparent, faculty.slug)
             web_path = WEB_DIR / f"{index + 1:02d}-{faculty.slug}.png"
             transparent.save(web_path, compress_level=6)
             web_items.append((faculty, transparent))
