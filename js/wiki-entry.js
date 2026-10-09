@@ -100,18 +100,9 @@
 
   document.title = `${entry.title} · 校园维基百科`;
   if (titleEl) titleEl.textContent = entry.title;
-  // 正文已含「导语」时不再在标题下重复摘要
   if (summaryEl) {
-    const hasLead = (entry.sections || []).some(
-      (s) => s.id === "lead" || s.title === "导语"
-    );
-    if (hasLead) {
-      summaryEl.textContent = "";
-      summaryEl.hidden = true;
-    } else {
-      summaryEl.hidden = false;
-      summaryEl.textContent = entry.summary || "";
-    }
+    summaryEl.hidden = false;
+    summaryEl.textContent = entry.summary || "";
   }
   if (crumbEl) crumbEl.textContent = entry.title;
 
