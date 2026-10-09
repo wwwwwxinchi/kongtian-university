@@ -100,7 +100,10 @@
 
   document.title = `${entry.title} · 校园维基百科`;
   if (titleEl) titleEl.textContent = entry.title;
-  if (summaryEl) summaryEl.textContent = entry.summary || "";
+  if (summaryEl) {
+    summaryEl.hidden = false;
+    summaryEl.textContent = entry.summary || "";
+  }
   if (crumbEl) crumbEl.textContent = entry.title;
 
   if (boxEl) {

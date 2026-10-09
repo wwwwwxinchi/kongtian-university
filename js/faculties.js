@@ -69,10 +69,6 @@
         <div><span>${faculty.tag}</span><h2>${faculty.name}</h2></div>
       </div>
       <p>${faculty.blurb}</p>
-      <dl class="faculty-preview-meta">
-        <div><dt>校区</dt><dd>地球校区</dd></div>
-        <div><dt>公开人物</dt><dd>${roster.length || "待录入"}</dd></div>
-      </dl>
       <a class="btn btn-solid faculty-home-link" href="${homepageFor(faculty)}">进入学院主页 <span aria-hidden="true">↗</span></a>
     `;
 

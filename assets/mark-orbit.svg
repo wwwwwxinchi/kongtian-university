@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+  <circle cx="48" cy="48" r="45.5" stroke="#1E4A72" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" stroke="#5BA3D9" stroke-width="1" stroke-dasharray="2 3" opacity="0.85"/>
+  <!-- planet -->
+  <ellipse cx="48" cy="56" rx="16" ry="9" stroke="#1E4A72" stroke-width="1.6"/>
+  <path d="M32 56c4-3 10-5 16-5s12 2 16 5" stroke="#5BA3D9" stroke-width="1" opacity="0.7"/>
+  <!-- rocket -->
+  <path d="M48 22l5 14h-10l5-14z" fill="#1E4A72"/>
+  <rect x="45.2" y="34" width="5.6" height="14" rx="1.2" fill="#3B86C0"/>
+  <path d="M42 46l6 8 6-8H42z" fill="#5BA3D9"/>
+  <!-- orbit -->
+  <ellipse cx="48" cy="40" rx="26" ry="10" stroke="#5BA3D9" stroke-width="1.2" transform="rotate(-28 48 40)"/>
+  <circle cx="70" cy="34" r="2.2" fill="#E8B84A"/>
+  <circle cx="28" cy="42" r="1.6" fill="#1E4A72"/>
+</svg>
