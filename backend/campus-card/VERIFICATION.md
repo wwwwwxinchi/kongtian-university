@@ -9,3 +9,7 @@
 - 部署前线上首页 SHA-256 与本地 main 基线一致。备份路径 `/var/backups/campus-card/20261009T164303Z`（UTC）。部署后根磁盘可用约 5.7 GiB，独立服务内存约 15 MB。
 
 浏览器截图和测试下载在本机 `D:/esorakodo/card-activity-output/`。管理员凭据单独交付于 `D:/esorakodo/campus-card-private/admin-credentials.txt`，不纳入 Git 或公开目录。
+
+## 同日卡面调整
+
+按用户截图要求，右侧信息区只保留实际姓名与学号，移除中英文小标签、学生类型说明和分隔线；未填写时不显示占位文字。预览、下载和上传共用同一正面画布。公网确认加载 `app.js?v=20261010b`；真实下载与本地检查图片 SHA-256 均为 `8f7926c7a89fa301375752c063a49bee2cf2addddeac664f2875262710436450`。接收仍关闭。旧活动脚本与页面备份在 `/var/backups/campus-card/20261010-name-number-only`。
