@@ -36,6 +36,19 @@
   const homepageFor = (faculty) =>
     faculty.url || `faculty.html?id=${encodeURIComponent(faculty.id)}`;
 
+  const indexEl = document.querySelector("[data-faculty-index]");
+  if (indexEl) {
+    indexEl.innerHTML = window.FACULTIES.map((faculty, index) => `
+      <a class="module faculty-index-card" href="${homepageFor(faculty)}" aria-label="进入${faculty.name}主页">
+        <span class="module-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+        <span class="faculty-index-seal" aria-hidden="true"><img src="${faculty.emblem}" alt="" width="88" height="88" loading="lazy" /></span>
+        <span class="module-tag">${faculty.tag}</span>
+        <h3>${faculty.name}</h3>
+        <p>${faculty.blurb}</p>
+        <span class="module-action">进入学院主页 <i aria-hidden="true">↗</i></span>
+      </a>`).join("");
+  }
+
   orbit.innerHTML = `
     <div class="faculty-orbit-ring" aria-label="十六学院环行目录">
       ${window.FACULTIES.map((faculty, index) => {
