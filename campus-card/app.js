@@ -362,7 +362,8 @@
   function randomChoice(array) { return array[Math.floor(Math.random() * array.length)]; }
   function randomize() {
     remember();
-    for (const key of ['base', 'eyes', 'brows', 'nose', 'mouth', 'clothes']) state.parts[key] = randomChoice(catalog[key].items)[0];
+    for (const key of ['base', 'eyes', 'brows', 'nose', 'mouth']) state.parts[key] = randomChoice(catalog[key].items)[0];
+    state.parts.clothes = state.parts.base === '1791467405' ? '1777146729' : randomChoice(catalog.clothes.items)[0];
     state.parts.glasses = Math.random() > .75 ? catalog.glasses.items[0][0] : null;
     state.parts.pupils = null;
     state.adjustments = {};
