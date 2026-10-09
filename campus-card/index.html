@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="activity.css">
   <script src="assets.js" defer></script>
   <script src="catalog.js" defer></script>
-  <script src="app.js?v=20261010d" defer></script>
+  <script src="app.js?v=20261010e" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -99,8 +99,9 @@
             <div class="panel-heading"><h2 id="export-heading">你的校园生活，从这里开始</h2></div>
             <p class="section-description">确认卡面信息，带上你的专属校园卡。</p>
             <div class="student-summary"><img id="summary-seal" width="58" height="58" alt=""><div><strong id="summary-name"></strong><p><span id="summary-degree"></span><span class="summary-separator">/</span><span id="summary-number"></span></p></div></div>
-            <dl class="export-specs"><div><dt>成品尺寸</dt><dd>86 × 54 mm <span>横向</span></dd></div><div><dt>图片规格</dt><dd>PNG · 300 DPI</dd></div><div><dt>导出像素</dt><dd>1016 × 638 px</dd></div><div><dt>导出内容</dt><dd>校园卡正面</dd></div><div><dt>文件名称</dt><dd id="export-filename">姓名+学号.png</dd></div></dl>
+            <dl class="export-specs"><div><dt>成品尺寸</dt><dd>86 × 54 mm <span>横向</span></dd></div><div><dt>图片规格</dt><dd>PNG · 300 DPI</dd></div><div><dt>导出像素</dt><dd>1016 × 638 px</dd></div><div><dt>下载内容</dt><dd>校园卡正面与背面</dd></div><div><dt>正面名称</dt><dd id="export-filename">姓名+学号.png</dd></div><div><dt>背面名称</dt><dd>正面文件名加「_背面」</dd></div></dl>
             <div class="export-actions"><button type="button" class="primary-button export-main" id="download-front"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>下载校园卡</button><button type="button" class="outline-button" id="print-card" disabled>打印</button></div>
+            <div id="download-fallback" class="print-status" hidden><p>若浏览器拦截多个文件，请允许下载，或分别点击：<a id="download-front-again">下载正面</a> · <a id="download-back-again">下载背面</a>。</p></div>
             <p class="print-status" id="print-status" role="status" aria-live="polite">正在查询打印提交状态…</p>
             <p class="export-hint">「打印」将正面图片提交给活动管理员。同名图片直接替换，只保留最新一张。</p>
             <div class="panel-footer"><button type="button" class="text-button back-button" id="back-identity">修改学籍信息</button></div>

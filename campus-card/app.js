@@ -409,6 +409,7 @@
   }
   function safeFilename(value) { return value.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').replace(/[. ]+$/g, '') || '空天同学'; }
   function cardFilename() { return `${safeFilename(state.name.trim() + state.number.trim())}.png`; }
+  let downloadUrls = [];
   let printAccepting = false;
   async function refreshPrintStatus() {
     try {
@@ -446,10 +447,19 @@
         const text = result.replaced ? `已更新打印图片：${filename}，原图已替换。` : `已提交打印：${filename}`;
         $('print-status').textContent = text; notify(text);
       } else {
-        const url = URL.createObjectURL(blob), link = document.createElement('a');
-        link.href = url; link.download = filename; document.body.append(link); link.click(); link.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 60000);
-        notify(`已发起下载：${filename}`);
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        c.drawImage(images.get('cardBack'), 0, 0, canvas.width, canvas.height);
+        const backBlob = await pngWithDpi(canvas);
+        const backFilename = filename.replace(/\.png$/, '_背面.png');
+        downloadUrls.forEach(url => URL.revokeObjectURL(url));
+        downloadUrls = [URL.createObjectURL(blob), URL.createObjectURL(backBlob)];
+        const links = [$('download-front-again'), $('download-back-again')];
+        links.forEach((link, index) => {
+          link.href = downloadUrls[index]; link.download = index ? backFilename : filename;
+        });
+        $('download-fallback').hidden = false;
+        links.forEach(link => link.click());
+        notify('已发起正面与背面下载；若浏览器拦截，请使用下方单独下载链接。');
       }
     } catch (error) {
       const text = error.name === 'TimeoutError' ? '提交超时，请重试；同名重试只会保留一张图片。' : error.message || '操作失败，请重试。';
