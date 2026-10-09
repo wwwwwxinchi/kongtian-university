@@ -121,12 +121,12 @@
   if (admitEl) admitEl.textContent = profile.admit;
 
   const applyLink = get("[data-faculty-apply]");
-  if (applyLink) applyLink.href = `admissions.html`;
+  if (applyLink) applyLink.href = `https://campus.kongtian.university/`;
 
   const ids = (window.FACULTY_ROSTER && window.FACULTY_ROSTER[id]) || [];
   const people = get("[data-faculty-people]");
   if (!ids.length) {
-    people.innerHTML = `<div class="faculty-empty"><span>${faculty.seal}</span><p>公开人物档案仍在整理。招生请通过学校官方小红书账号报名。</p><p><a class="text-link" href="admissions.html">前往官方报名 →</a></p></div>`;
+    people.innerHTML = `<div class="faculty-empty"><span>${faculty.seal}</span><p>公开人物档案仍在整理。招生请前往校园报名页投递档案。</p><p><a class="text-link" href="https://campus.kongtian.university/" target="_blank" rel="noopener noreferrer">前往官方报名 →</a></p></div>`;
     return;
   }
 
