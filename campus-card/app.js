@@ -187,9 +187,9 @@
     c.textBaseline = 'alphabetic';
     c.fillStyle = '#20394d';
     const name = state.name.trim();
-    fitText(c, name, 1070, 79, chineseFont, 700); c.fillText(name, 782, 469);
+    fitText(c, name, 1070, 110, chineseFont, 700); c.fillText(name, 782, 469);
     const number = state.number.trim();
-    fitText(c, number, 1070, 66, dataFont, 500); c.fillText(number, 784, 674);
+    fitText(c, number, 1070, 92, dataFont, 500); c.fillText(number, 784, 674);
   }
   function updateCardPreview() {
     const c = $('card-preview').getContext('2d');
