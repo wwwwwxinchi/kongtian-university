@@ -19,7 +19,7 @@
 
 本地验证：`python test_server.py`。前端浏览器验收需覆盖真实 PNG 下载、登录、开关、覆盖、移动端与未登录拒绝读取。
 
-发布目录包含本目录的 `server.py`、`campus-card.service`、`nginx.conf`、`deploy.sh`、独立传输的 `campus-card.env`，以及只含 `index.html`、`css/campus-card-event.css`、`campus-card/` 的 `frontend.tar.gz`。执行 `sh deploy.sh`。已有配置不会覆盖。部署前确认线上首页与活动基线相同。
+发布目录包含本目录的 `server.py`、`campus-card.service`、`nginx.conf`、`deploy.sh`、独立传输的 `campus-card.env`，以及包含 `index.html`、`css/campus-card-event.css`、`campus-card/`、`assets/campus-card-front.webp`、`assets/campus-card-back.webp` 的 `frontend.tar.gz`。执行 `sh deploy.sh`。已有配置不会覆盖。部署前确认线上首页与活动基线相同。
 
 脚本备份首页和 nginx 配置至 `/var/backups/campus-card/<UTC时间>`。保持其他网站配置不变，`nginx -t` 成功后才 reload。后端使用独立系统用户、只读系统目录和 192 MiB 内存上限。
 
