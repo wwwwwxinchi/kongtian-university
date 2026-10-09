@@ -185,21 +185,11 @@
     const chineseFont = '"Microsoft YaHei", "PingFang SC", sans-serif';
     const dataFont = '"Bahnschrift", "Consolas", monospace';
     c.textBaseline = 'alphabetic';
-    c.fillStyle = '#7897ab';
-    c.font = `500 27px ${chineseFont}`; c.fillText('姓名', 786, 365);
-    c.font = `400 21px ${dataFont}`; c.fillText('NAME', 877, 365);
-    c.fillStyle = state.name.trim() ? '#20394d' : '#bfd2df';
-    const name = state.name.trim() || '你的姓名';
+    c.fillStyle = '#20394d';
+    const name = state.name.trim();
     fitText(c, name, 1070, 79, chineseFont, 700); c.fillText(name, 782, 469);
-    c.fillStyle = '#dceaf3'; c.fillRect(786, 511, 1070, 2);
-    c.fillStyle = '#7897ab';
-    c.font = `500 27px ${chineseFont}`; c.fillText('学号', 786, 579);
-    c.font = `400 21px ${dataFont}`; c.fillText('STUDENT ID', 877, 579);
-    c.fillStyle = state.number.trim() ? '#20394d' : '#bfd2df';
-    const number = state.number.trim() || 'YOUR STUDENT ID';
+    const number = state.number.trim();
     fitText(c, number, 1070, 66, dataFont, 500); c.fillText(number, 784, 674);
-    c.fillStyle = '#7897ab'; c.font = `400 24px ${chineseFont}`;
-    c.fillText(state.degree === 'graduate' ? '研究生  /  POSTGRADUATE' : '本科生  /  UNDERGRADUATE', 786, 777);
   }
   function updateCardPreview() {
     const c = $('card-preview').getContext('2d');
