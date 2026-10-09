@@ -1322,6 +1322,104 @@ a.module:hover,
 .faculty-detail-orbit i { position:absolute; left:10%; top:50%; width:10px; height:10px; border-radius:50%; background:var(--sun); }
 .faculty-detail-grid { display:grid; grid-template-columns:1.3fr .7fr; gap:1rem; margin-top:1rem; }
 .faculty-detail-grid > .panel { padding:clamp(1.4rem,3vw,2.2rem); }
+.faculty-detail-admit { grid-column: 1 / -1; }
+.faculty-detail-admit .btn { margin-top: 1rem; }
+.faculty-detail-people { grid-column: 1 / -1; }
+
+.admissions-official-solo {
+  max-width: 420px;
+  margin: 0 auto;
+}
+.admissions-official p {
+  margin: 0 0 1rem;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.admissions-note {
+  margin-top: 1.25rem !important;
+  color: var(--muted) !important;
+  font-size: 0.9rem !important;
+}
+.xhs-official {
+  margin: 0;
+  text-align: center;
+}
+.xhs-official-slot {
+  display: grid;
+  place-items: center;
+  gap: 0.35rem;
+  aspect-ratio: 1;
+  width: min(100%, 220px);
+  margin: 0 auto 0.85rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(30, 74, 114, 0.28);
+  background:
+    radial-gradient(circle at 50% 30%, rgba(186, 210, 255, 0.35), transparent 60%),
+    #f7fbff;
+  color: var(--cloud);
+  font-family: var(--font-cn);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.xhs-official-slot small {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+.xhs-official figcaption {
+  display: grid;
+  gap: 0.2rem;
+}
+.xhs-official figcaption strong {
+  color: var(--cloud);
+  font-family: var(--font-cn);
+  letter-spacing: 0.04em;
+}
+.xhs-official figcaption span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.campus-map-panel { padding: 1rem 1.1rem 1.2rem !important; }
+.campus-map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.campus-map-svg .cm-ground { fill: #e8f2fa; }
+.campus-map-svg .cm-axis {
+  fill: none;
+  stroke: rgba(30, 74, 114, 0.12);
+  stroke-width: 2;
+  stroke-dasharray: 6 8;
+}
+.campus-map-svg .cm-region rect,
+.campus-map-svg .cm-region circle {
+  fill: rgba(91, 163, 217, 0.18);
+  stroke: rgba(30, 74, 114, 0.28);
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition: fill 160ms ease, stroke 160ms ease;
+}
+.campus-map-svg .cm-region text {
+  fill: var(--cloud);
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+}
+.campus-map-svg .cm-region:hover rect,
+.campus-map-svg .cm-region:hover circle,
+.campus-map-svg .cm-region.is-active rect,
+.campus-map-svg .cm-region.is-active circle {
+  fill: rgba(91, 163, 217, 0.34);
+  stroke: rgba(30, 74, 114, 0.55);
+}
+.campus-map-cap {
+  margin: 0.85rem 0 0 !important;
+  color: var(--muted) !important;
+  font-size: 0.88rem !important;
+}
 .faculty-detail-overview > p:not(.archive-label) { max-width:46rem; }
 .faculty-focus-list { display:grid; grid-template-columns:repeat(3,1fr); gap:.65rem; margin-top:1.5rem; }
 .faculty-focus-list span { min-height:96px; display:flex; flex-direction:column; justify-content:space-between; padding:1rem; color:var(--cloud); font-family:var(--font-cn); font-weight:700; border:1px solid var(--line); border-radius:var(--radius-sm); background:#f5fafc; }
