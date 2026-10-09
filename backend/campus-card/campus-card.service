@@ -1,0 +1,24 @@
+[Unit]
+Description=Kongtian campus card activity
+After=network.target
+
+[Service]
+Type=simple
+User=campus-card
+Group=campus-card
+EnvironmentFile=/etc/campus-card.env
+WorkingDirectory=/opt/campus-card
+ExecStart=/usr/bin/python3 /opt/campus-card/server.py
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/campus-card
+MemoryMax=192M
+TasksMax=48
+
+[Install]
+WantedBy=multi-user.target
