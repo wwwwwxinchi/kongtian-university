@@ -189,7 +189,7 @@
     const name = state.name.trim();
     fitText(c, name, 1070, 110, chineseFont, 700); c.fillText(name, 782, 469);
     const number = state.number.trim();
-    fitText(c, number, 1070, 92, dataFont, 500); c.fillText(number, 784, 674);
+    fitText(c, number, 1070, 92, dataFont, 500); c.fillText(number, 784, 720);
   }
   function updateCardPreview() {
     const c = $('card-preview').getContext('2d');
