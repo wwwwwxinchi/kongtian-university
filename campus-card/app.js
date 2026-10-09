@@ -67,7 +67,8 @@
       const next = defaultState();
       for (const [key, group] of Object.entries(catalog)) {
         const stored = saved.parts?.[key];
-        const value = key === 'base' && stored === '1777054133' ? '1791467405' : stored;
+        const value = key === 'base' && stored === '1777054133' ? '1791467405'
+          : key === 'frontHair' && stored === '1777036961' ? '1777028017' : stored;
         if (group.items.some(([id]) => value === id) || (group.optional && value === null)) next.parts[key] = value;
       }
       for (const key of [...Object.keys(catalog), 'hair']) {
@@ -79,6 +80,9 @@
       }
       if (colors.some(c => c.id === saved.hairColor)) next.hairColor = saved.hairColor;
       next.hairPreset = presets.some(p => p.id === saved.hairPreset) ? saved.hairPreset : null;
+      if (next.hairPreset === 'long-braids' && next.parts.fullHair === '1777140511' && !next.parts.frontHair) {
+        next.parts.frontHair = '1777028017';
+      }
       next.name = typeof saved.name === 'string' ? Array.from(saved.name).slice(0, 16).join('') : '';
       next.number = typeof saved.number === 'string' ? saved.number.slice(0, 24) : '';
       next.degree = saved.degree === 'graduate' ? 'graduate' : 'undergraduate';

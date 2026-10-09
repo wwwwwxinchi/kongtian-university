@@ -4,7 +4,7 @@ window.CAMPUS_CATALOG = {
     ['1776956441', '女生'], ['1791467405', '男生']
   ] },
   frontHair: { label: '前发', optional: true, items: [
-    ['1777028017', '侧分短发'], ['1777036961', '蓬松侧分'], ['1777051882', '轻盈刘海'],
+    ['1777028017', '侧分短发'], ['1777051882', '轻盈刘海'],
     ['1777126536', '自然斜刘海'], ['1777145255', '凌乱短发'],
     ['1791467405 2', '栗棕蓬松短发'], ['1791467405 3', '深色尖束刘海']
   ] },
@@ -55,10 +55,10 @@ window.CAMPUS_HAIR_PRESETS = [
   { id: 'soft-curls', label: '柔软卷发', fullHair: '1777146906' },
   { id: 'casual-short', label: '凌乱短发', frontHair: '1777145255', rearHair: '1777028072' },
   { id: 'side-bob', label: '侧分中发', frontHair: '1777028017', rearHair: '1777032679' },
-  { id: 'long-braids', label: '长双辫', fullHair: '1777140511' },
+  { id: 'long-braids', label: '长双辫', fullHair: '1777140511', frontHair: '1777028017' },
   { id: 'gold-long', label: '金棕长发', fullHair: '1777146922' },
   { id: 'twin-tail', label: '双马尾', fullHair: '1777146930' },
   { id: 'linen-long', label: '亚麻长发', fullHair: '1777147041' },
-  { id: 'flowing-curls', label: '双侧卷发', frontHair: '1777036961', rearHair: '1777028072', sideHair: '1777039012' },
+  { id: 'flowing-curls', label: '双侧卷发', frontHair: '1777028017', rearHair: '1777028072', sideHair: '1777039012' },
   { id: 'light-bob', label: '轻盈短发', frontHair: '1777051882', rearHair: '1777039974', sideHair: '1777028113' }
 ];
