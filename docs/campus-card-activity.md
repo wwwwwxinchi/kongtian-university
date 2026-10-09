@@ -2,7 +2,7 @@
 
 前端分支：`activity/campus-card`；后端分支：`activity/campus-card-backend`。活动不合并到常驻官网 `main` / `deploy`。
 
-首页最下方新增「制作校园卡」入口，沿用官网现有字体、蓝色背景、圆角及模块样式。制作页 `/campus-card/` 从本地捏脸工具的多文件版本引入，保留全部 59 份原画部件、男女底图、统一卡背和本科/研究生卡面。没有改变原始素材。
+首页最下方新增「制作校园卡」入口，沿用官网现有字体、蓝色背景、圆角及模块样式。制作页 `/campus-card/` 从本地捏脸工具的多文件版本引入，保留全部 59 份原画部件和男女底图。最新卡面来自用户 2026-10-10 提供的 `ktu本科生.zip` 和 `ktu研究生.zip`，分别使用各自 `1.png` 正面，共用本科包的 `2.png` 背面，原始 PNG 字节完整嵌入。两包背面设计相同，仅 18 个像素的通道值相差 1–2，用户确认应共用同一背面。校名英文为 KongTian University。可运行 `python tools/import-campus-card-templates.py --undergraduate <本科压缩包> --graduate <研究生压缩包>` 更新模板和首页展示素材（需要 Pillow）。
 
 首页入口使用原始校园卡模板，以错位、倾斜和阴影叠放展示。正面保留原图的灰色简笔画头像，姓名「空天同学」与学号「0019260826」由 SVG 文字叠加。素材为 `assets/campus-card-front.webp` 和 `assets/campus-card-back.webp`，不在首页加载完整捏脸素材。手机自动改为上图下文，减少动态效果设置下禁用悬浮动效。
 
