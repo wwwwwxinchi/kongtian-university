@@ -1,2 +1,67 @@
-.campus-card-section{padding-top:0}.campus-card-invite{border:1px solid var(--line);border-radius:var(--radius-lg);background:linear-gradient(120deg,#edf7fc,#fbfdff);box-shadow:var(--shadow-soft);padding:3rem;gap:3rem}.campus-card-emblem{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem}.campus-card-emblem img{max-width:70%;height:auto}.campus-card-emblem span{font-family:var(--font-sans);font-size:.65rem;letter-spacing:.2em;color:var(--sea-deep)}.campus-card-invite .campus-card-note{font-size:.8rem;letter-spacing:.1em;color:var(--muted)}.campus-card-invite .btn{margin-top:1rem}@media(max-width:700px){.campus-card-invite{padding:2rem 1.5rem;grid-template-columns:1fr;gap:1.5rem}.campus-card-emblem img{width:110px}.campus-card-emblem span{display:none}}
-.campus-card-emblem img{mix-blend-mode:multiply}
+.campus-card-section { padding-top: 0; }
+.campus-card-invite {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, #edf7fc, #fbfdff);
+  box-shadow: var(--shadow-soft);
+  padding: 3rem;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+.campus-card-product {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1.22;
+  margin: 0 auto;
+}
+.campus-card-product::before {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 6%;
+  bottom: 0;
+  height: 13%;
+  border-radius: 50%;
+  background: rgba(22, 78, 110, 0.14);
+  filter: blur(18px);
+  transform: rotate(-7deg);
+  z-index: -1;
+}
+.campus-card-product-face {
+  position: absolute;
+  overflow: hidden;
+  aspect-ratio: 1016 / 638;
+  border-radius: 12px;
+  background: #fff;
+  outline: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 1px rgba(18, 59, 90, 0.14), 0 18px 30px -12px rgba(18, 59, 90, 0.32);
+  transition: transform 350ms ease, box-shadow 350ms ease;
+}
+.campus-card-product-face img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.campus-card-product-face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(39, 126, 175, 0.09);
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.13), transparent 46%, rgba(125, 190, 222, 0.06));
+  pointer-events: none;
+}
+.campus-card-product-back { width: 77%; top: 6%; right: 0; transform: rotate(10deg); }
+.campus-card-product-front { width: 83%; bottom: 5%; left: 0; transform: rotate(-9deg); }
+.campus-card-invite .campus-card-note { font-size: .8rem; letter-spacing: .1em; color: var(--muted); }
+.campus-card-invite .btn { margin-top: 1rem; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .campus-card-invite:hover .campus-card-product-back { transform: translate(3px, -4px) rotate(12deg); }
+  .campus-card-invite:hover .campus-card-product-front { transform: translate(-3px, -4px) rotate(-11deg); box-shadow: 0 2px 1px rgba(18, 59, 90, .14), 0 24px 36px -12px rgba(18, 59, 90, .3); }
+}
+@media (max-width: 760px) {
+  .campus-card-invite { padding: 2rem 1.5rem; grid-template-columns: 1fr; gap: 2rem; }
+  .campus-card-product { width: min(100%, 360px); }
+  .campus-card-product-face { border-radius: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .campus-card-product-face { transition: none; }
+}
