@@ -1,4 +1,4 @@
-/* Keep the orbit and its introduction in separate, non-overlapping columns. */
+/* Right-hand introduction with a cropped orbit entering from the lower left. */
 .faculty-orbit-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
@@ -68,6 +68,16 @@
   .faculty-orbit-copy h1 { font-size: 3rem; }
   .faculty-preview { padding: 1.2rem; }
   .faculty-index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 861px) {
+  .faculty-orbit-hero { min-height: 850px; }
+  .faculty-orbit-scene {
+    position: absolute;
+    left: clamp(-300px, -20vw, -170px);
+    bottom: -440px;
+    width: clamp(800px, 78vw, 1120px);
+  }
 }
 
 @media (max-width: 860px) {
