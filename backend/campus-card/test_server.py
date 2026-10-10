@@ -88,6 +88,17 @@ class ServiceTest(unittest.TestCase):
         self.assertEqual(self.req('POST', 'logout', {}, cookie)[0], 200)
         self.assertEqual(self.req('GET', 'images', cookie=cookie)[0], 401)
 
+    def test_webkit_significant_bits(self):
+        source = png((20, 80, 200))
+        def with_bits(bits):
+            kind = b'sBIT'
+            chunk = struct.pack('!I', len(bits)) + kind + bits + struct.pack('!I', zlib.crc32(kind + bits))
+            return source[:33] + chunk + source[33:]
+        self.module.validate_png(with_bits(bytes([8, 8, 8])))
+        for bits in (bytes([8, 8]), bytes([8, 8, 8, 8]), bytes([0, 8, 8]), bytes([9, 8, 8])):
+            with self.subTest(bits=bits), self.assertRaises(ValueError):
+                self.module.validate_png(with_bits(bits))
+
 
 if __name__ == '__main__':
     unittest.main()
