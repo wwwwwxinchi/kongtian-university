@@ -99,6 +99,17 @@ class ServiceTest(unittest.TestCase):
             with self.subTest(bits=bits), self.assertRaises(ValueError):
                 self.module.validate_png(with_bits(bits))
 
+    def test_ipad_exif_metadata(self):
+        source = png((20, 80, 200))
+        metadata = b'II\x2a\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+        kind = b'eXIf'
+        chunk = struct.pack('!I', len(metadata)) + kind + metadata + struct.pack('!I', zlib.crc32(kind + metadata))
+        self.module.validate_png(source[:33] + chunk + source[33:])
+        corrupt = bytearray(source[:33] + chunk + source[33:])
+        corrupt[42] ^= 1
+        with self.assertRaises(ValueError):
+            self.module.validate_png(bytes(corrupt))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -79,7 +79,7 @@ def validate_png(body):
             # change the 8-bit pixel layout, but must match the color channels.
             if kind in seen or b'IDAT' in seen or channels is None or len(content) != channels or any(not 1 <= bit <= 8 for bit in content):
                 raise ValueError('PNG 颜色位数信息无效。')
-        elif kind not in (b'pHYs', b'sRGB', b'gAMA', b'cHRM', b'iCCP', b'tEXt', b'iTXt'):
+        elif kind not in (b'pHYs', b'sRGB', b'gAMA', b'cHRM', b'iCCP', b'tEXt', b'iTXt', b'eXIf'):
             raise ValueError('PNG 包含不支持的数据块。')
         seen.add(kind)
         pos = end
