@@ -406,7 +406,12 @@
       const type = String.fromCharCode(...source.subarray(cursor + 4, cursor + 8));
       const end = cursor + 12 + length;
       if (end > source.length) throw new Error('PNG 数据不完整');
-      if (type !== 'pHYs') parts.push(source.subarray(cursor, end));
+      // Remove browser-specific EXIF, text and significant-bit metadata.
+      // Keep color profiles and image data; replace DPI with our own value.
+      // Unknown critical chunks remain subject to backend validation.
+      if (!(source[cursor + 4] & 32) || ['tRNS', 'sRGB', 'gAMA', 'cHRM', 'iCCP'].includes(type)) {
+        parts.push(source.subarray(cursor, end));
+      }
       if (type === 'IHDR') parts.push(chunk);
       cursor = end;
     }
@@ -414,6 +419,30 @@
   }
   function safeFilename(value) { return value.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').replace(/[. ]+$/g, '') || '空天同学'; }
   function cardFilename() { return `${safeFilename(state.name.trim() + state.number.trim())}.png`; }
+  // Store already-compressed PNGs in one UTF-8 ZIP: one user download on iOS.
+  async function cardZip(files) {
+    const encoder = new TextEncoder(), localParts = [], centralParts = [];
+    let offset = 0, centralSize = 0;
+    for (const file of files) {
+      const name = encoder.encode(file.name), bytes = new Uint8Array(await file.blob.arrayBuffer());
+      const checksum = crc32(bytes);
+      const local = new Uint8Array(30 + name.length), lv = new DataView(local.buffer);
+      lv.setUint32(0, 0x04034b50, true); lv.setUint16(4, 20, true); lv.setUint16(6, 0x800, true);
+      lv.setUint16(12, 33, true); lv.setUint32(14, checksum, true);
+      lv.setUint32(18, bytes.length, true); lv.setUint32(22, bytes.length, true); lv.setUint16(26, name.length, true); local.set(name, 30);
+      const central = new Uint8Array(46 + name.length), cv = new DataView(central.buffer);
+      cv.setUint32(0, 0x02014b50, true); cv.setUint16(4, 20, true); cv.setUint16(6, 20, true); cv.setUint16(8, 0x800, true);
+      cv.setUint16(14, 33, true); cv.setUint32(16, checksum, true);
+      cv.setUint32(20, bytes.length, true); cv.setUint32(24, bytes.length, true); cv.setUint16(28, name.length, true);
+      cv.setUint32(42, offset, true); central.set(name, 46);
+      localParts.push(local, bytes); centralParts.push(central);
+      offset += local.length + bytes.length; centralSize += central.length;
+    }
+    const end = new Uint8Array(22), ev = new DataView(end.buffer);
+    ev.setUint32(0, 0x06054b50, true); ev.setUint16(8, files.length, true); ev.setUint16(10, files.length, true);
+    ev.setUint32(12, centralSize, true); ev.setUint32(16, offset, true);
+    return new Blob([...localParts, ...centralParts, end], {type: 'application/zip'});
+  }
   let downloadUrls = [];
   let printAccepting = false;
   async function refreshPrintStatus() {
@@ -441,7 +470,7 @@
       await document.fonts.ready; render();
       const canvas = document.createElement('canvas');
       canvas.width = 1016; canvas.height = 638;
-      const c = canvas.getContext('2d'); c.fillStyle = '#edf7fd'; c.fillRect(0, 0, canvas.width, canvas.height);
+      const c = canvas.getContext('2d', { colorSpace: 'srgb' }); c.fillStyle = '#edf7fd'; c.fillRect(0, 0, canvas.width, canvas.height);
       c.drawImage(cardFront, 0, 0, canvas.width, canvas.height);
       const filename = cardFilename();
       const blob = await pngWithDpi(canvas);
@@ -456,15 +485,18 @@
         c.drawImage(images.get('cardBack'), 0, 0, canvas.width, canvas.height);
         const backBlob = await pngWithDpi(canvas);
         const backFilename = filename.replace(/\.png$/, '_背面.png');
+        const archive = await cardZip([{name:filename, blob}, {name:backFilename, blob:backBlob}]);
         downloadUrls.forEach(url => URL.revokeObjectURL(url));
-        downloadUrls = [URL.createObjectURL(blob), URL.createObjectURL(backBlob)];
+        downloadUrls = [URL.createObjectURL(blob), URL.createObjectURL(backBlob), URL.createObjectURL(archive)];
         const links = [$('download-front-again'), $('download-back-again')];
         links.forEach((link, index) => {
           link.href = downloadUrls[index]; link.download = index ? backFilename : filename;
         });
         $('download-fallback').hidden = false;
-        links.forEach(link => link.click());
-        notify('已发起正面与背面下载；若浏览器拦截，请使用下方单独下载链接。');
+        const archiveLink = $('download-zip-again');
+        archiveLink.href = downloadUrls[2]; archiveLink.download = filename.replace(/\.png$/, '_正反面.zip');
+        archiveLink.click();
+        notify('已发起正反面压缩包下载，解压后可获得两张 PNG。');
       }
     } catch (error) {
       const text = error.name === 'TimeoutError' ? '提交超时，请重试；同名重试只会保留一张图片。' : error.message || '操作失败，请重试。';
