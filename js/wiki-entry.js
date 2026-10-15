@@ -1,4 +1,4 @@
-(() => {
+window.WIKI_READY.then(() => {
   const params = new URLSearchParams(location.search);
   const id = params.get("id") || "kongtian";
   const entry = window.WIKI_ENTRIES && window.WIKI_ENTRIES[id];
@@ -9,6 +9,7 @@
   const tocEl = document.querySelector("[data-wiki-toc]");
   const boxEl = document.querySelector("[data-wiki-infobox]");
   const crumbEl = document.querySelector("[data-wiki-crumb]");
+  const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   const renderNav = () => {
     if (!tocEl || !window.WIKI_NAV) return;
@@ -31,14 +32,14 @@
       const toggle = hasKids
         ? `<button type="button" class="wiki-toc-toggle" aria-expanded="${
             isCurrent ? "true" : "false"
-          }" aria-label="展开 ${node.label}">${isCurrent ? "▾" : "▸"}</button>`
+          }" aria-label="展开 ${escapeHtml(node.label)}">${isCurrent ? "▾" : "▸"}</button>`
         : `<span class="wiki-toc-dot">·</span>`;
 
       const label = isEntry
         ? `<a href="${hrefFor(node.id)}"${
             isCurrent ? ' aria-current="page"' : ""
-          }>${node.label}</a>`
-        : `<span class="wiki-toc-group">${node.label}</span>`;
+          }>${escapeHtml(node.label)}</a>`
+        : `<span class="wiki-toc-group">${escapeHtml(node.label)}</span>`;
 
       return `<li class="wiki-toc-item${isCurrent ? " is-current" : ""}" data-depth="${depth}">
         <div class="wiki-toc-row">
@@ -89,10 +90,10 @@
   };
 
   if (!entry) {
-    if (titleEl) titleEl.textContent = "未找到条目";
+    if (titleEl) titleEl.textContent = window.WIKI_SYNC_AVAILABLE ? "未找到条目" : "词条暂时无法读取";
     if (bodyEl) {
       bodyEl.innerHTML =
-        '<p>没有这条词条。<a href="wiki.html">返回词云</a></p>';
+        window.WIKI_SYNC_AVAILABLE ? '<p>没有这条词条。<a href="wiki.html">返回词云</a></p>' : '<p>请稍后刷新重试，或<a href="https://campus.kongtian.university/wiki">前往校园站查阅</a>。</p>';
     }
     renderNav();
     return;
@@ -124,7 +125,7 @@
       .map(
         (s) => `
       <section class="wiki-sec" id="${s.id}">
-        <h2>${s.title}</h2>
+        <h2>${escapeHtml(s.title)}</h2>
         ${s.html}
       </section>`
       )
@@ -132,4 +133,4 @@
   }
 
   renderNav();
-})();
+});

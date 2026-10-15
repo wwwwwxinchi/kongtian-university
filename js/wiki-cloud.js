@@ -1,4 +1,4 @@
-(() => {
+window.WIKI_READY.then(() => {
   const root = document.querySelector("[data-wiki-cloud]");
   const preview = document.querySelector("[data-wiki-preview]");
   if (!root || !window.WIKI_CLOUD) return;
@@ -59,13 +59,11 @@
     if (!preview || !item) return;
     const entry = window.WIKI_ENTRIES && window.WIKI_ENTRIES[item.data.id];
     const summary = entry?.summary || `读取与“${item.data.text}”相关的校园档案。`;
-    preview.innerHTML = `
-      <p class="orbit-kicker">FIELD INDEX ${String(index + 1).padStart(3, "0")}</p>
-      <span class="wiki-preview-weight">能场层级 ${item.data.weight}</span>
-      <h2>${item.data.text}</h2>
-      <p>${summary}</p>
-      <a class="text-link" href="${item.el.href}">读取词条 <span aria-hidden="true">→</span></a>
-    `;
+    const label = document.createElement('p'); label.className = 'orbit-kicker'; label.textContent = `FIELD INDEX ${String(index + 1).padStart(3, '0')}`;
+    const heading = document.createElement('h2'); heading.textContent = entry?.title || item.data.text;
+    const description = document.createElement('p'); description.textContent = summary;
+    const link = document.createElement('a'); link.className = 'text-link'; link.href = item.el.href; link.textContent = '读取词条 →';
+    preview.replaceChildren(label, heading, description, link);
   };
 
   const nearestAngle = (current, target) => target + Math.round((current - target) / tau) * tau;
@@ -255,4 +253,4 @@
     requestAnimationFrame(tick);
   };
   document.fonts?.ready ? document.fonts.ready.then(start) : start();
-})();
+});
