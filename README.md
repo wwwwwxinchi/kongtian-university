@@ -2,6 +2,12 @@
 
 静态站点。浏览入口：`index.html`
 
+## 共享校园百科
+
+`wiki.html` 与 `wiki-entry.html` 只读，“修改”统一跳转校园站 `/wiki`。`js/wiki-sync.js` 读取校园站匿名公开接口，保留现有阅读版式；校园站新增词条进入搜索与导航，接口失败显示官网原始存档。
+
+官网原文修改后，执行 `node tools/export-wiki-canon.mjs` 生成 `wiki-canon.json`，先在校园站用 `scripts/prepare-official-wiki.mjs` 准备/审阅并事务导入，再发布官网。首次冲突及官网新稿以官网为准；同一原文重复导入不会覆盖校园站后续编辑。全部覆盖保留修订记录。部署顺序和对应关系见校园站 `docs/design/shared-wiki.md`；校园站公开接口上线前不要发布依赖它的官网版本。
+
 ## GitHub Pages
 
 本仓库根目录即网站根目录。启用 Pages 后访问：
