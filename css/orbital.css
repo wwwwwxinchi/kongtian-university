@@ -1816,5 +1816,12 @@ a.module:hover,
 .wiki-directory li a { display:grid; gap:.4rem; padding:1rem 0; overflow-wrap:anywhere; }
 .wiki-directory li span { color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .wiki-classic-body { overflow-wrap:anywhere; }
-.wiki-classic-body pre,.wiki-classic-body table { display:block; max-width:100%; overflow-x:auto; }
-@media(max-width:640px) { .wiki-directory ul { grid-template-columns:1fr; } }
+.wiki-classic-body pre { display:block; max-width:100%; overflow-x:auto; }
+.wiki-classic-body table { width:100%; table-layout:fixed; border-collapse:collapse; margin:.75rem 0 1.25rem; }
+.wiki-classic-body th,.wiki-classic-body td { padding:.65rem .9rem .65rem 0; text-align:left; vertical-align:top; line-height:1.7; border-bottom:1px solid var(--line); }
+.wiki-classic-body th { color:var(--cloud); }
+.wiki-classic-body th:first-child,.wiki-classic-body td:first-child { width:11rem; }
+@media(max-width:640px) {
+  .wiki-directory ul { grid-template-columns:1fr; }
+  .wiki-classic-body th:first-child,.wiki-classic-body td:first-child { width:8rem; }
+}
