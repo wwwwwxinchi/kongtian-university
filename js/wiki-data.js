@@ -117,7 +117,7 @@ window.WIKI_ENTRIES = {
         id: "will",
         title: "意志",
         html: `
-          <p>意志是人类个体操控万有能场、改变物理世界的关键条件。当个体主动将意志扩充到极致时，有概率觉醒操控万有能场的能力，并获得印记。目前人类尚未将意志量化，其概念与「执念」有所类似，源于人最深处的渴望与热爱。</p>
+          <p>意志是人类个体操控万有能场、改变物理世界的关键条件。当个体主动将意志扩充到极致时，有概率觉醒操控万有能场的能力。目前人类尚未将意志量化，其概念与「执念」有所类似，源于人最深处的渴望与热爱。</p>
         `,
       },
       {
@@ -145,7 +145,7 @@ window.WIKI_ENTRIES = {
   },
   awaken: {
     title: "觉醒",
-    summary: "觉醒指个体在主动意志达到极致时发生的转变。觉醒后，个体开始具备操控万有能场的能力（异能），并通常伴随印记出现。觉醒是异能教育与相关社会制度中的关键节点。",
+    summary: "觉醒指个体在主动意志达到极致时发生的转变。觉醒后，个体开始具备操控万有能场的能力（异能）。觉醒是异能教育与相关社会制度中的关键节点。",
     toc: [
       { id: "cond", label: "条件" },
       { id: "after", label: "过程与后果" },
@@ -188,7 +188,7 @@ window.WIKI_ENTRIES = {
         id: "bound",
         title: "获得与边界",
         html: `
-          <p>异能的获得以觉醒为节点，并伴随印记出现；觉醒之后，能力强度、可控性、副作用与个体差异显著，仍需训练以达到更好的操控效果。异能存在边界，过度幻想或不顾意志消耗可能导致严重生理消耗。异能需要伦理约束，校园内使用边界见《空天大学异能管理规范》。</p>
+          <p>异能的获得以觉醒为节点；觉醒之后，能力强度、可控性、副作用与个体差异显著，仍需训练以达到更好的操控效果。异能存在边界，过度幻想或不顾意志消耗可能导致严重生理消耗。异能需要伦理约束，校园内使用边界见《空天大学异能管理规范》。</p>
         `,
       },
       {
@@ -208,41 +208,9 @@ window.WIKI_ENTRIES = {
       },
     ],
   },
-  mark: {
-    title: "印记",
-    summary: "印记是个体觉醒异能后，出现在身体某一部位的肉眼可见的痕迹。其位置、形态与显现时机因人而异，多与个体具体异能相关，被普遍视为能力唤起后的身体标记。大多数人将其主动露出以区别于普通群众。",
-    toc: [
-      { id: "form", label: "形成" },
-      { id: "shape", label: "形态" },
-      { id: "social", label: "社会含义" },
-    ],
-    sections: [
-      {
-        id: "form",
-        title: "形成",
-        html: `
-          <p>当一个人的主动意志强烈到顶峰并完成觉醒时，通常会随之获得印记。印记的出现与异能能力的唤起同步。目前尚未见到完全脱离觉醒而单独产生印记的可靠案例。</p>
-        `,
-      },
-      {
-        id: "shape",
-        title: "形态",
-        html: `
-          <p>印记可出现在手心、手腕、肩背或其他部位，形状各不相同，目前尚未发现严格规律。</p>
-        `,
-      },
-      {
-        id: "social",
-        title: "社会含义",
-        html: `
-          <p>在社会生活中，印记常被视作「已觉醒」的可见证据。空天大学禁止以印记炫耀或压迫他人的行为。医疗与保卫场景中，印记有时作为识别与病历记录的辅助信息，其具体使用受隐私与伦理规范约束。</p>
-        `,
-      },
-    ],
-  },
   yiyizhe: {
     title: "驭异者",
-    summary: "驭异者指已觉醒、能够通过意志操控万有能场并改变物理世界的个体。觉醒后通常伴随印记；",
+    summary: "驭异者指已觉醒、能够通过意志操控万有能场并改变物理世界的个体。",
     toc: [
       { id: "body", label: "说明" },
     ],
@@ -271,7 +239,6 @@ window.WIKI_ENTRIES = {
             <li>禁止以异能胁迫、伤害他人或破坏公共秩序；禁止未报备在密集公共区域释放高强度状态。</li>
             <li>教学、实验与实训中的异能使用须符合课程或课题审批；涉及人身与能场交互的项目遵守伦理流程。</li>
             <li>异变现场以保卫部指挥为准，个人不得擅自强行介入。</li>
-            <li>印记不得用于炫耀、歧视或压迫；相关医疗与安保信息受隐私保护。</li>
             <li>违规者按校规处理，情节严重者移送校外公共管理部门。</li>
           </ul>
           <p>细则以学校当年公布文本为准。</p>
@@ -316,7 +283,7 @@ window.WIKI_ENTRIES = {
         id: "body",
         title: "说明",
         html: `
-          <p>轻度表现为读后难忘、情绪被迅速带入；过强时，读者可能短时沉浸，书写者自身也可能因幻想消耗而脱力。印记多见手心。效果与文本完成度、读者状态相关。禁止用于胁迫或未经同意的意志干预。</p>
+          <p>轻度表现为读后难忘、情绪被迅速带入；过强时，读者可能短时沉浸，书写者自身也可能因幻想消耗而脱力。效果与文本完成度、读者状态相关。禁止用于胁迫或未经同意的意志干预。</p>
         `,
       },
       {
@@ -544,7 +511,7 @@ window.WIKI_ENTRIES = {
         id: "ability-care",
         title: "与异能相关的医疗",
         html: `
-          <p>异能者的伤病，和普通的磕碰、感染伤病完全不同。院方重点关注异能释放后的身体代谢损耗、异能印记引发的皮肤神经异常，以及能场异变现场转送伤员的分级救治分流。校医院的救治原则十分明确：优先稳住生命体征，再评估异能损伤与能力状态。</p>
+          <p>异能者的伤病，和普通的磕碰、感染伤病完全不同。院方重点关注异能释放后的身体代谢损耗，以及能场异变现场转送伤员的分级救治分流。校医院的救治原则十分明确：优先稳住生命体征，再评估异能损伤与能力状态。</p>
         `,
       },
     ],
@@ -640,8 +607,21 @@ window.WIKI_ENTRIES = {
   },
 }
 
+// 人物正文与院系名册共用一份档案，离线时仍可阅读。
+const zhouyan = window.CHARACTERS.zhouyan;
+window.WIKI_ENTRIES.zhouyan = {
+  title: zhouyan.name,
+  summary: zhouyan.summary,
+  sections: [
+    { id: "facts", title: "基本资料", html: `<ul>${zhouyan.facts.map(([label, value]) => `<li>${label}：${value}</li>`).join("")}</ul>` },
+    ...zhouyan.sections.map((section, index) => ({ id: `profile-${index}`, ...section })),
+  ],
+};
+window.WIKI_ENTRIES.zhouyan.toc = window.WIKI_ENTRIES.zhouyan.sections.map(section => ({ id: section.id, label: section.title }));
+
 /** 详情页左侧：全站百科导航（可展开分组 → 词条） */
 window.WIKI_NAV = [
+  { label: "人物", children: [{ id: "zhouyan", label: "周延" }] },
   {
     label: "学校",
     children: [
@@ -655,7 +635,6 @@ window.WIKI_NAV = [
       { id: "field", label: "万有能场" },
       { id: "awaken", label: "觉醒" },
       { id: "ability", label: "异能" },
-      { id: "mark", label: "印记" },
       { id: "yiyizhe", label: "驭异者" },
       { id: "ability-rules", label: "异能管理规范" },
     ],
@@ -697,12 +676,12 @@ window.WIKI_NAV = [
 
 /** 词云用词条：weight 越大字越大；id 对应 WIKI_ENTRIES */
 window.WIKI_CLOUD = [
+  { id: "zhouyan", text: "周延", weight: 3 },
   { id: "kongtian", text: "空天大学", weight: 5 },
   { id: "motto", text: "校训", weight: 3 },
   { id: "field", text: "万有能场", weight: 5 },
   { id: "awaken", text: "觉醒", weight: 4 },
   { id: "ability", text: "异能", weight: 4 },
-  { id: "mark", text: "印记", weight: 4 },
   { id: "yiyizhe", text: "驭异者", weight: 4 },
   { id: "ability-rules", text: "空天大学异能管理规范", weight: 3 },
   { id: "blackwin", text: "黑窗口", weight: 3 },
